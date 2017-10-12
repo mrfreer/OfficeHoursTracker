@@ -2,7 +2,9 @@ package com.example.android.officehourstracker;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,9 +44,15 @@ public class MyAdapterStudents extends RecyclerView.Adapter<MyAdapterStudents.Vi
         return studentsInClass.size();
     }
 
+
+    RecyclerView.Adapter adapter;
+
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView textViewStudent;
         public TextView textViewID;
+        CardView cv;
+
         public ViewHolder(View itemView){
             super(itemView);
             textViewStudent = (TextView) itemView.findViewById(R.id.textViewStudent);
@@ -55,8 +63,9 @@ public class MyAdapterStudents extends RecyclerView.Adapter<MyAdapterStudents.Vi
 
         @Override
         public void onClick(View v) {
-            //Toast.makeText("Logging student information", )
-            //how can I make a toast inside an inner class?
+            Log.i("position-of-clicked", String.valueOf(getAdapterPosition()));
+            Log.i("position-of-clicked", String.valueOf(textViewStudent.getText()));
+            Log.i("position-of-clicked", String.valueOf(textViewID.getText()));
         }
 
     }

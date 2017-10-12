@@ -35,9 +35,7 @@ public class ClassList extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewStudents);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        students = new ArrayList<>();
-        students.add(new Student("123", "Jon Smith"));
-        students.add(new Student("234", "Juan Gonzalez"));
+        students = readStudentsFromDB();
 
         adapter = new MyAdapterStudents(students, this);
         recyclerView.setAdapter(adapter);
@@ -67,7 +65,36 @@ public class ClassList extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), newRowId + " ", Toast.LENGTH_LONG).show();
     }
 
+    public ArrayList<Student> readStudentsFromDB(){
+
+        SQLiteDatabase db = new ClassListDbHelper(this).getReadableDatabase();
+        String [] projection = {
+                StudentDB.StudentEntry.COLUMN_NAME_TITLE_STUDENT_NAME
+                ,StudentDB.StudentEntry.COLUMN_NAME_CLASS_ID
+                ,StudentDB.StudentEntry.COLUMN_NAME_STUDENT_ID
+                //,StudentDB.StudentEntry.COLUMN_TIME
+        };
+        String [] selectionArgs = {"students"};
+
+        Cursor cursor = db.query(StudentDB.StudentEntry.TABLE_NAME, projection, StudentDB.StudentEntry.COLUMN_NAME_STUDENT_ID + ">0",
+                null, null, null, null);
+        List itemIds = new ArrayList<>();
+        ArrayList<Student> studentNames = new ArrayList<>();
+
+        while(cursor.moveToNext()){
+            String studentId, name;
+            long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(StudentDB.StudentEntry.COLUMN_NAME_STUDENT_ID));
+            studentId = cursor.getString(cursor.getColumnIndexOrThrow(StudentDB.StudentEntry.COLUMN_NAME_STUDENT_ID));
+            name = cursor.getString(cursor.getColumnIndexOrThrow(StudentDB.StudentEntry.COLUMN_NAME_TITLE_STUDENT_NAME));
+            studentNames.add(new Student(studentId, name));
+            itemIds.add(itemId);
+        }
+        return studentNames;
+    }
+
     public void readFromStudents(View view){
+
+        //TODO: READ FROM DATABASE AND WRITE TO CARDS!  VERY IMPORTANT!
         Log.i("WRITING_MDC", " READING DATABASE");
         SQLiteDatabase db = new ClassListDbHelper(this).getReadableDatabase();
         String [] projection = {
