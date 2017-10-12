@@ -44,26 +44,9 @@ public class ClassList extends AppCompatActivity {
         textViewClassName.setText(getIntent().getExtras().getString("className"));
         String courseIdentification = Integer.toString(getIntent().getExtras().getInt("classID")) + " is the class ID.";
         Toast.makeText(getApplicationContext(), courseIdentification, Toast.LENGTH_LONG).show();
-        //viewID
-        //Toast.makeText(getApplicationContext(), Integer.toString(getIntent().getExtras().getInt("viewID")), Toast.LENGTH_LONG).show();
+
     }
 
-    public void insertDataStudents(View view){
-        ClassListDbHelper classListDbHelper = new ClassListDbHelper(this);  //sending this instead of getContext()
-        //https://stackoverflow.com/questions/10641144/difference-between-getcontext-getapplicationcontext-getbasecontext-and
-        SQLiteDatabase db = classListDbHelper.getWritableDatabase();
-        Log.i("WRITING_MDC", " WRITING DATABASE");
-        //TODO fix this!
-        ContentValues values = new ContentValues();
-        values.put(StudentDB.StudentEntry.COLUMN_NAME_TITLE_STUDENT_NAME, "Billy Johnston");
-        values.put(StudentDB.StudentEntry.COLUMN_NAME_CLASS_ID, 5);
-        values.put(StudentDB.StudentEntry.COLUMN_NAME_STUDENT_ID, 201);
-        values.put(StudentDB.StudentEntry.COLUMN_TIME, "12/21/2017");  //does the order matter?  probably not...
-        //some dummy values for now!
-        //TODO: Get values from which element was clicked...
-        long newRowId = db.insert(StudentDB.StudentEntry.TABLE_NAME, null, values);
-        Toast.makeText(getApplicationContext(), newRowId + " ", Toast.LENGTH_LONG).show();
-    }
 
     public ArrayList<Student> readStudentsFromDB(){
 

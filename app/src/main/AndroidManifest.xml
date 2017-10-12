@@ -19,6 +19,10 @@
         <activity
             android:name=".ClassList"
             android:label="@string/title_activity_class_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ViewStudentVisitors"
+            android:label="@string/title_activity_view_student_visitors"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

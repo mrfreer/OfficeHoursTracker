@@ -14,7 +14,7 @@ public final class StudentDB {
         public static final String COLUMN_NAME_STUDENT_ID = "studentID";
         public static final String COLUMN_NAME_TITLE_STUDENT_NAME = "studentName";
         public static final String COLUMN_NAME_CLASS_ID = "classID";
-        public static final String COLUMN_TIME = "timeIn";
+
     }
 
 }
