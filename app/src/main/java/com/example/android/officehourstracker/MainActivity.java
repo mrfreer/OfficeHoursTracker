@@ -1,9 +1,11 @@
 package com.example.android.officehourstracker;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
         adapter = new MyAdapter(courses, this);
         recyclerView.setAdapter(adapter);
 
+
+    }
+
+    public void showStudentTime(View view){
+        Intent intent = new Intent(view.getContext(), ViewStudentVisitors.class);
+        startActivity(intent);
 
     }
 }

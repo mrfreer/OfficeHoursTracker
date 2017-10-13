@@ -18,11 +18,13 @@ public class ViewStudentVisitors extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_student_visitors);
-
+        ArrayList<String> arrayList = readData();
+        Toast.makeText(getApplicationContext(), arrayList.get(0).toString(), Toast.LENGTH_LONG).show();
 
     }
 
