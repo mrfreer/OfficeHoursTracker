@@ -33,13 +33,13 @@ public class AdapterStudentTime extends RecyclerView.Adapter<AdapterStudentTime.
     @Override
     public void onBindViewHolder(AdapterStudentTime.ViewHolder holder, int position) {
         StudentTime studentTime = studentTimes.get(position);
-        holder.textViewStudent.setText(studentTime.getStudentID());
+        holder.textViewStudent.setText(studentTime.getStudentID() + " test");
         holder.textViewTime.setText(studentTime.getTimeStamp());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return studentTimes.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

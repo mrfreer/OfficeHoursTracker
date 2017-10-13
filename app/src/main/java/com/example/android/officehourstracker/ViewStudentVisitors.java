@@ -29,7 +29,7 @@ public class ViewStudentVisitors extends AppCompatActivity {
         setContentView(R.layout.activity_view_student_visitors);
         ArrayList<StudentTime> arrayList = readData();
         adapter = new AdapterStudentTime(arrayList, this);
-        recyclerView = (RecyclerView) findViewById(R.id);
+        recyclerView = (RecyclerView) findViewById(R.id.recycleViewTimes);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);

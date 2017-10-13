@@ -36,7 +36,7 @@ public class ClassList extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         students = readStudentsFromDB();
-
+        students.add(new Student("123", "Jon Jones"));
         adapter = new MyAdapterStudents(students, this);
         recyclerView.setAdapter(adapter);
 
