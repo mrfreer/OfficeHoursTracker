@@ -6,7 +6,7 @@ import android.provider.BaseColumns;
  * Created by dfreer on 10/11/2017.
  */
 
-public final class CourseDB {
+public final class  CourseDB {
     private CourseDB(){}
 
     public static class CourseEntry implements BaseColumns{
