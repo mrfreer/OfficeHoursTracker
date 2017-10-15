@@ -1,10 +1,15 @@
 package com.example.android.officehourstracker;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -19,6 +24,26 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AccountManager am = AccountManager.get(this);
+        Account[] accounts = am.getAccountsByType("com.google");
+        final CharSequence items[] = new CharSequence[accounts.length];
+        int num = 0;
+        for(Account account : accounts){
+            items[num] = account.name;
+        }
+        if(accounts.length > 0){
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Log.i("value is ", items[i].toString());
+                }
+            });
+            adb.setNegativeButton("Cancel", null);
+            adb.setTitle("Pick an account:");
+            adb.show();
+        }
+
         setContentView(R.layout.activity_main);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);

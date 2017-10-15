@@ -25,5 +25,7 @@
             android:label="@string/title_activity_view_student_visitors"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
 
 </manifest>
