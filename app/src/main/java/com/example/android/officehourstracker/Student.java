@@ -8,7 +8,6 @@ public class Student {
     private String studentID;
     private String name;
 
-    //TODO: we will get this from a file eventually
 
     public Student(String studentID, String name) {
         this.studentID = studentID;

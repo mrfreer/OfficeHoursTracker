@@ -23,7 +23,7 @@ public class Course {
         students.add(new Student("234", "Jon Smith"));
     }
 
-    //TODO: Add student names from file!
+    //TODO: Add student names from mysql database
 
     @Override
     public String toString() {

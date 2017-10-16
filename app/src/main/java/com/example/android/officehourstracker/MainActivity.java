@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         AccountManager accountManager = AccountManager.get(this);
         Account[] accounts = accountManager.getAccountsByType("com.google");
         //TODO: request user to add permissions when they start the app!
-        
+
         gUsernameList.clear();
 //loop
         for (Account account : accounts) {

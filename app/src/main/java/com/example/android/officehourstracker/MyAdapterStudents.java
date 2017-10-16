@@ -93,7 +93,6 @@ public class MyAdapterStudents extends RecyclerView.Adapter<MyAdapterStudents.Vi
             values.put(StudentTimesDB.COLUMN_TIMESTAMP, sdf.format(new Date()).toString());
 
 
-            //TODO: Get values from which element was clicked...
             long newRowId = db.insert(StudentTimesDB.TABLE_NAME, null, values);
             Log.i("mdc_android", newRowId + "");
 

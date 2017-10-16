@@ -35,7 +35,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String>
         String googleId = params[0];
         Log.v("AgainWriting", googleId);
         String timeStamp = params[1];
-        String login_url = "http://74.207.232.70/OfficeHoursTracker/readProfessors.php";
+        String login_url = "http://freerschool.com/OfficeHoursTracker/insertProf.php";
         try {
 
             String post_data = URLEncoder.encode("googleId", "UTF-8") + "=" + URLEncoder.encode(googleId, "UTF-8") +
@@ -62,6 +62,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String>
                 result += line;
 
             }
+
             bufferedReader.close();
             inputStream.close();
 
