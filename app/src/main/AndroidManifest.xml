@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.android.officehourstracker">
 
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,11 +26,11 @@
         <activity
             android:name=".ViewStudentVisitors"
             android:label="@string/title_activity_view_student_visitors"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UploadRoster"
+            android:label="@string/title_activity_upload_roster"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
-    <uses-permission
-        android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission
-        android:name="android.permission.INTERNET" />
 
 </manifest>

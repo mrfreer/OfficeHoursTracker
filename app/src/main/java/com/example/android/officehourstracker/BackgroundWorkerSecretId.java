@@ -1,5 +1,10 @@
 package com.example.android.officehourstracker;
 
+/**
+ * Created by dfreer on 10/16/2017.
+ */
+
+
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
@@ -21,27 +26,24 @@ import java.net.URLEncoder;
  * Created by davidfreer on 10/15/17.
  */
 
-public class BackgroundWorker extends AsyncTask<String, Void, String>
+public class BackgroundWorkerSecretId extends AsyncTask<String, Void, String>
 {
     Context context;
     AlertDialog alertDialog;
-    public BackgroundWorker(Context c) {
+    public BackgroundWorkerSecretId(Context c) {
         context = c;
     }
 
-
+    private String secId = "";
 
     protected String doInBackground(String ... params) {
         String result = "";
         String googleId = params[0];
         Log.v("AgainWriting", googleId);
-        String timeStamp = params[1];
-        String login_url = "http://freerschool.com/OfficeHoursTracker/insertProf.php";
+        String login_url = "http://freerschool.com/OfficeHoursTracker/getsecret.php";
         try {
 
-            String post_data = URLEncoder.encode("googleId", "UTF-8") + "=" + URLEncoder.encode(googleId, "UTF-8") +
-                    "&" +
-                    URLEncoder.encode("timeStamp", "UTF-8") + "=" + URLEncoder.encode(timeStamp, "UTF-8");
+            String post_data = URLEncoder.encode("googleId", "UTF-8") + "=" + URLEncoder.encode(googleId, "UTF-8");
 
             URL url = new URL(login_url);
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
@@ -64,7 +66,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String>
                 result += line;
 
             }
-
+            secId = result;
             bufferedReader.close();
             inputStream.close();
 
@@ -82,18 +84,24 @@ public class BackgroundWorker extends AsyncTask<String, Void, String>
 
     @Override
     protected void onPreExecute() {
-        alertDialog = new AlertDialog.Builder(context).create();
-        alertDialog.setTitle("Login Status");
+//        alertDialog = new AlertDialog.Builder(context).create();
+//        alertDialog.setTitle("Login Status");
 
     }
 
     @Override
     protected void onPostExecute(String s) {
-        alertDialog.setMessage(s);
+//        alertDialog.setMessage(s);
+//        alertDialog.show();
 
         //show response to server
+
     }
 
+
+    public String getSecretId(){
+        return secId;
+    }
     @Override
     protected void onProgressUpdate(Void... values) {
         super.onProgressUpdate(values);

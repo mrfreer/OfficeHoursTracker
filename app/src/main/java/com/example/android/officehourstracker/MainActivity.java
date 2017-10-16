@@ -121,4 +121,10 @@ public class MainActivity extends AppCompatActivity {
         Log.v("writeGoogleName", googleName);
         backgroundWorker.execute(googleName, curTime);
     }
+
+    public void uploadInfo(View view){
+        Intent intent = new Intent(view.getContext(), UploadRoster.class);
+        intent.putExtra("googleIdentification", googleName);
+        startActivity(intent);
+    }
 }
