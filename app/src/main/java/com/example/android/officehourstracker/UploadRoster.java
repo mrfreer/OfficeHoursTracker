@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.concurrent.ExecutionException;
+
 public class UploadRoster extends AppCompatActivity {
     private TextView textViewSecret;
     @Override
@@ -20,12 +22,20 @@ public class UploadRoster extends AppCompatActivity {
     }
 
     public void generateUniqueId(View view){
-        BackgroundWorkerSecretId backgroundWorkerSecretId = new BackgroundWorkerSecretId(this);
+        BackgroundWorkerSecretId backgroundWorkerSecretId = new BackgroundWorkerSecretId(this, this);
         Intent intent = getIntent();
         String googleIdentification = intent.getStringExtra("googleIdentification");
-        backgroundWorkerSecretId.execute(googleIdentification);
-        textViewSecret.setText(backgroundWorkerSecretId.getSecretId());
-        Log.v("testing_testing", backgroundWorkerSecretId.getSecretId() + " is secret");
+        String secret = "";
+        try {
+            secret = backgroundWorkerSecretId.execute(googleIdentification).get();
+        }
+        catch (ExecutionException | InterruptedException ei){
+            ei.printStackTrace();
+        }
+        textViewSecret.setVisibility(View.VISIBLE);
+        textViewSecret.setText(secret + " is the secret code.  Enter it exactly into the website above.");
+
+       // Log.v("testing_testing", backgroundWorkerSecretId.getSecretId() + " is secret");
     }
 
 }

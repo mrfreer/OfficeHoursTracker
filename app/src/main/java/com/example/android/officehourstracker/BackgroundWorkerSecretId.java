@@ -5,10 +5,12 @@ package com.example.android.officehourstracker;
  */
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -33,7 +35,12 @@ public class BackgroundWorkerSecretId extends AsyncTask<String, Void, String>
     public BackgroundWorkerSecretId(Context c) {
         context = c;
     }
+    private Activity activity;
 
+    public BackgroundWorkerSecretId(Activity activity, Context c){
+        this.activity = activity;
+        context = c;
+    }
     private String secId = "";
 
     protected String doInBackground(String ... params) {
@@ -62,14 +69,16 @@ public class BackgroundWorkerSecretId extends AsyncTask<String, Void, String>
                     "iso-8859-1"));
             String line = "";
             while((line = bufferedReader.readLine()) != null){
-                Log.v("testingWriting", line);
+                //Log.v("testingWriting", line);
                 result += line;
 
             }
             secId = result;
             bufferedReader.close();
             inputStream.close();
-
+            TextView textView;
+            textView = (TextView)activity.findViewById(R.id.textViewRealSecretId);
+            //textView.setText("Secret Id: " + result);
             httpURLConnection.disconnect();
 
         }
@@ -91,11 +100,13 @@ public class BackgroundWorkerSecretId extends AsyncTask<String, Void, String>
 
     @Override
     protected void onPostExecute(String s) {
+
 //        alertDialog.setMessage(s);
 //        alertDialog.show();
 
         //show response to server
-
+        //Log.v("testingWriting", getSecretId());
+        getSecretId();
     }
 
 
