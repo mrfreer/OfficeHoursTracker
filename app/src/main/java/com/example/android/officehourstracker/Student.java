@@ -15,9 +15,25 @@ public class Student {
         this.googleId = googleId;
     }
 
+    public Student(){
+
+    }
+
     public Student(String studentID, String name) {
         this.studentID = studentID;
         this.name = name;
+    }
+
+    public void setStudentID(String studentID) {
+        this.studentID = studentID;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 
     public String getGoogleId(){ return googleId;}

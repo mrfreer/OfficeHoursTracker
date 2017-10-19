@@ -14,6 +14,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +34,8 @@ public class ClassList extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<Student> students;
     private RecyclerView.Adapter adapter;
+    private RecyclerView.Adapter mysqlAdapter;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_list);
@@ -38,7 +47,7 @@ public class ClassList extends AppCompatActivity {
        // students = readStudentsFromDBLocal();
         students = readStudentsMySQL();
         adapter = new MyAdapterStudents(students, this);
-        recyclerView.setAdapter(adapter);
+       // recyclerView.setAdapter(adapter);
 
         textViewClassName = (TextView) findViewById(R.id.textViewClass);
         textViewClassName.setText(getIntent().getExtras().getString("className"));
@@ -74,11 +83,78 @@ public class ClassList extends AppCompatActivity {
         }
         return studentNames;
     }
+    public void JSON_DATA_WEB_CALL(){
+
+        jsonArrayRequest = new JsonArrayRequest(HTTP_JSON_URL,
+
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        JSON_PARSE_DATA_AFTER_WEBCALL(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+
+        requestQueue = Volley.newRequestQueue(this);
+
+        requestQueue.add(jsonArrayRequest);
+    }
+
+
+    public void JSON_PARSE_DATA_AFTER_WEBCALL(JSONArray array){
+
+        for(int i = 0; i<array.length(); i++) {
+
+            Student GetDataAdapter2 = new Student();
+
+            JSONObject json = null;
+            try {
+                json = array.getJSONObject(i);
+
+                GetDataAdapter2.setName(json.getString(GET_JSON_FROM_SERVER_NAME));
+                GetDataAdapter2.setStudentID(json.getString(GET_JSON_ID));
+                studentNames.add(json.getString(GET_JSON_FROM_SERVER_NAME));
+                studentId.add(json.getString(GET_JSON_ID));
+                //cool!
+
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+            students.add(GetDataAdapter2);
+        }
+
+        mysqlAdapter = new RecyclerViewCardViewAdapter(students, this);
+
+        recyclerView.setAdapter(mysqlAdapter);
+
+    }
+
+    JsonArrayRequest jsonArrayRequest;
+    String GET_JSON_FROM_SERVER_NAME = "studentLast";
+    String GET_JSON_ID = "studentId";
+    String HTTP_JSON_URL = "http://freerschool.com/OfficeHoursTracker/getStudents.php";
+    RequestQueue requestQueue;
+    View ChildView ;
+    int GetItemPosition ;
+    ArrayList<String> studentNames;
+    ArrayList<String> studentId;
+
 
     public ArrayList<Student> readStudentsMySQL(){
         //TODO MOST important, I need to use JSON to create the cards:
         //TODO https://androidjson.com/recyclerview-json-listview-example/
+
+        //http://freerschool.com/OfficeHoursTracker/getStudents.php
         ArrayList<Student> arrayList = new ArrayList<>();
+
+
 
         return arrayList;
     }
