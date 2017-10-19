@@ -1,6 +1,7 @@
 package com.example.android.officehourstracker;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -35,12 +36,15 @@ public class ClassList extends AppCompatActivity {
     private List<Student> students;
     private RecyclerView.Adapter adapter;
     private RecyclerView.Adapter mysqlAdapter;
+    private String googleId;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_list);
         studentNames = new ArrayList<>();
         studentId = new ArrayList<>();
+        Intent intent = getIntent();
+        googleId = intent.getStringExtra("googleId");
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewStudents);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -135,7 +139,7 @@ public class ClassList extends AppCompatActivity {
             Log.v("addingStudent", GetDataAdapter2.getStudentID());
         }
 
-        mysqlAdapter = new RecyclerViewCardViewAdapter(students, this);
+        mysqlAdapter = new RecyclerViewCardViewAdapter(students, this, googleId);
 
         recyclerView.setAdapter(mysqlAdapter);
 

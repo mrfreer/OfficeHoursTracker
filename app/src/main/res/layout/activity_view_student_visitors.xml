@@ -8,6 +8,9 @@
     tools:context="com.example.android.officehourstracker.ViewStudentVisitors">
 
 
-    <include layout="@layout/content_view_student_visitors" />
+    <include
+        layout="@layout/content_view_student_visitors"
+        android:layout_width="match_parent"
+        android:layout_height="513dp" />
 
 </android.support.design.widget.CoordinatorLayout>

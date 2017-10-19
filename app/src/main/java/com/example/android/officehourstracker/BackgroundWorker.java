@@ -90,7 +90,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String>
     @Override
     protected void onPostExecute(String s) {
         alertDialog.setMessage(s);
-
         //show response to server
     }
 

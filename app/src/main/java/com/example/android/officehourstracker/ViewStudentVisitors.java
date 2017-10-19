@@ -30,6 +30,11 @@ public class ViewStudentVisitors extends AppCompatActivity {
         setContentView(R.layout.activity_view_student_visitors);
         ArrayList<StudentTime> arrayList = readDataLocal();
         adapter = new AdapterStudentTime(arrayList, this);
+        Intent intent = getIntent();
+
+        BackgroundWorkerStudentTime backgroundWorkerStudentTime = new BackgroundWorkerStudentTime(this, this);
+        backgroundWorkerStudentTime.execute(intent.getStringExtra("googleId"), intent.getStringExtra("studentID"),
+                intent.getStringExtra("studentName"));
         recyclerView = (RecyclerView) findViewById(R.id.recycleViewTimes);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

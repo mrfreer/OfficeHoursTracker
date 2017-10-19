@@ -1,5 +1,6 @@
 package com.example.android.officehourstracker;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +14,13 @@ public class RecyclerViewCardViewAdapter extends RecyclerView.Adapter<RecyclerVi
     Context context;
 
     List<Student> students;
-
-    public RecyclerViewCardViewAdapter(List<Student> getDataAdapter, Context context){
+    private String googleId;
+    public RecyclerViewCardViewAdapter(List<Student> getDataAdapter, Context context, String googleId){
 
         super();
 
         this.students = getDataAdapter;
-
+        this.googleId = googleId;
         this.context = context;
     }
 
@@ -48,7 +49,7 @@ public class RecyclerViewCardViewAdapter extends RecyclerView.Adapter<RecyclerVi
         return students.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public TextView StudentName, StudentId;
 
@@ -59,7 +60,17 @@ public class RecyclerViewCardViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
             StudentName = (TextView) itemView.findViewById(R.id.textViewStudent) ;
             StudentId = (TextView) itemView.findViewById(R.id.textViewID);
+            itemView.setClickable(true);
+            itemView.setOnClickListener(this);
+        }
 
+        public void onClick(View v) {
+            final Intent intent = new Intent(v.getContext(), ViewStudentVisitors.class);
+
+            intent.putExtra("studentName", StudentName.getText().toString());
+            intent.putExtra("studentID", StudentId.getText().toString());
+            intent.putExtra("googleId", googleId);
+            context.startActivity(intent);
         }
     }
 }
