@@ -7,10 +7,16 @@ package com.example.android.officehourstracker;
 public class StudentTime {
     private String studentID;
     private String timeStamp;
+    private String googleId;
 
-    public StudentTime(String studentID, String timeStamp) {
+    public StudentTime(String studentID, String timeStamp, String googleId) {
         this.studentID = studentID;
         this.timeStamp = timeStamp;
+        this.googleId = googleId;
+    }
+
+    public String getGoogleId() {
+        return googleId;
     }
 
     public String getStudentID() {

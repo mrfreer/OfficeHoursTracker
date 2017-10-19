@@ -26,9 +26,12 @@ import java.util.TimeZone;
 public class MyAdapterStudents extends RecyclerView.Adapter<MyAdapterStudents.ViewHolder>  {
     private List<Student> studentsInClass;
     private Context context;
-
+    String googleId;
     public MyAdapterStudents(List<Student> studentsInClass, Context context) {
         this.studentsInClass = studentsInClass;
+        if(studentsInClass.size() > 0){
+            googleId = studentsInClass.get(0).getGoogleId();
+        }
         this.context = context;
     } //constructor
 
@@ -76,6 +79,7 @@ public class MyAdapterStudents extends RecyclerView.Adapter<MyAdapterStudents.Vi
         }
         @Override
         public void onClick(View v) {
+            //Write to local SQLite database
             Log.i("position-of-clicked", String.valueOf(getAdapterPosition()));
             Log.i("position-of-clicked", String.valueOf(textViewStudent.getText()));
             Log.i("position-of-clicked", String.valueOf(textViewID.getText()));
@@ -95,6 +99,15 @@ public class MyAdapterStudents extends RecyclerView.Adapter<MyAdapterStudents.Vi
 
             long newRowId = db.insert(StudentTimesDB.TABLE_NAME, null, values);
             Log.i("mdc_android", newRowId + "");
+            //Write to mysql database
+            BackgroundWorkerStudentTime backgroundWorkerStudentTime =
+                    new BackgroundWorkerStudentTime(getContext);
+            backgroundWorkerStudentTime.execute
+                    (googleId, textViewID.getText().toString(), sdf.format(new Date()).toString(),
+                            textViewStudent.getText().toString());
+
+            Log.v("testing_input",backgroundWorkerStudentTime.getWriteData());
+
 
         }
 

@@ -35,8 +35,8 @@ public class ClassList extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewStudents);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        students = readStudentsFromDB();
-        students.add(new Student("123", "Jon Jones"));
+       // students = readStudentsFromDBLocal();
+        students = readStudentsMySQL();
         adapter = new MyAdapterStudents(students, this);
         recyclerView.setAdapter(adapter);
 
@@ -48,7 +48,7 @@ public class ClassList extends AppCompatActivity {
     }
 
 
-    public ArrayList<Student> readStudentsFromDB(){
+    public ArrayList<Student> readStudentsFromDBLocal(){
 
         SQLiteDatabase db = new ClassListDbHelper(this).getReadableDatabase();
         String [] projection = {
@@ -73,6 +73,14 @@ public class ClassList extends AppCompatActivity {
             itemIds.add(itemId);
         }
         return studentNames;
+    }
+
+    public ArrayList<Student> readStudentsMySQL(){
+        //TODO MOST important, I need to use JSON to create the cards:
+        //TODO https://androidjson.com/recyclerview-json-listview-example/
+        ArrayList<Student> arrayList = new ArrayList<>();
+
+        return arrayList;
     }
 
     public void readFromStudents(View view){

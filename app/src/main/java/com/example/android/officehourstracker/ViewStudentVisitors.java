@@ -1,5 +1,6 @@
 package com.example.android.officehourstracker;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -27,7 +28,7 @@ public class ViewStudentVisitors extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_student_visitors);
-        ArrayList<StudentTime> arrayList = readData();
+        ArrayList<StudentTime> arrayList = readDataLocal();
         adapter = new AdapterStudentTime(arrayList, this);
         recyclerView = (RecyclerView) findViewById(R.id.recycleViewTimes);
         recyclerView.setHasFixedSize(true);
@@ -36,7 +37,7 @@ public class ViewStudentVisitors extends AppCompatActivity {
 
     }
 
-    public ArrayList<StudentTime> readData(){
+    public ArrayList<StudentTime> readDataLocal(){
         Log.i("WRITING_MDC", " READING DATABASE");
         SQLiteDatabase db = new ClassListDbHelper(this).getReadableDatabase();
         String [] projection = {
@@ -48,15 +49,24 @@ public class ViewStudentVisitors extends AppCompatActivity {
                 null, null, null, null);
         List itemIds = new ArrayList<>();
         ArrayList<StudentTime> studentNamesTimes = new ArrayList<>();
+        Intent prevIntent = getIntent();
         while(cursor.moveToNext()){
+
             String id = cursor.getString(cursor.getColumnIndexOrThrow(StudentTimesDB.COLUMN_NAME_STUDENT_ID));
             String time = cursor.getString(cursor.getColumnIndexOrThrow(StudentTimesDB.COLUMN_TIMESTAMP));
-            studentNamesTimes.add(new StudentTime(id, time));
+            studentNamesTimes.add(new StudentTime(id, time, prevIntent.getStringExtra("googleId")));
         }
         cursor.close();
         Log.i("testing_testing", studentNamesTimes.size() + "");
         int counter = 0;
         return studentNamesTimes;
+    }
+
+    public ArrayList<StudentTime> readMySQLData(){
+        ArrayList<StudentTime> arrayList = new ArrayList<>();
+
+
+        return arrayList;
     }
 
 

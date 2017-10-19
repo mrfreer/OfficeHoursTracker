@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewSignIn;
     private RecyclerView.Adapter adapter;
     private List<Course> courses;
-    String googleName;
+    String googleName = "";
     ArrayList<String> gUsernameList = new ArrayList<String>();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +79,15 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
 
 
+        if(gUsernameList.size() > 0){
+            googleName = gUsernameList.get(0);
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "You aren't logged into an account", Toast.LENGTH_LONG).show();
+            //TODO make a website to create an account
+            //TODO a fragment to enter
+        }
 
-        googleName = gUsernameList.get(0);
         textViewSignIn.setText("You are signed in as: " + googleName);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -108,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void showStudentTime(View view){
         Intent intent = new Intent(view.getContext(), ViewStudentVisitors.class);
+        intent.putExtra("googleId", googleName);
         startActivity(intent);
 
     }
