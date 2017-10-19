@@ -11,6 +11,19 @@ public class Course {
     private String courseName;
     private String courseTime;
     private int ID;
+    private String googleId;
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    public Course() {
+    }
+
     //should we read this in?
     private List<Student> students;
 
@@ -31,6 +44,18 @@ public class Course {
                 "courseName='" + courseName + '\'' +
                 ", courseTime='" + courseTime + '\'' +
                 '}';
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public void setCourseTime(String courseTime) {
+        this.courseTime = courseTime;
     }
 
     public String getCourseName() {

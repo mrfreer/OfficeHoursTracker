@@ -1,35 +1,47 @@
-package com.example.android.officehourstracker;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+        package com.example.android.officehourstracker;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
+        import android.accounts.Account;
+        import android.accounts.AccountManager;
+        import android.app.Dialog;
+        import android.content.DialogInterface;
+        import android.content.Intent;
+        import android.support.v7.app.AlertDialog;
+        import android.support.v7.app.AppCompatActivity;
+        import android.os.Bundle;
+        import android.support.v7.widget.LinearLayoutManager;
+        import android.support.v7.widget.RecyclerView;
+        import android.util.Log;
+        import android.view.View;
+        import android.widget.AdapterView;
+        import android.widget.ArrayAdapter;
+        import android.widget.ListView;
+        import android.widget.TextView;
+        import android.widget.Toast;
+
+        import com.android.volley.RequestQueue;
+        import com.android.volley.Response;
+        import com.android.volley.VolleyError;
+        import com.android.volley.toolbox.JsonArrayRequest;
+        import com.android.volley.toolbox.Volley;
+
+        import org.json.JSONArray;
+        import org.json.JSONException;
+        import org.json.JSONObject;
+
+        import java.text.SimpleDateFormat;
+        import java.util.ArrayList;
+        import java.util.Date;
+        import java.util.List;
+        import java.util.Locale;
+        import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TextView textViewSignIn;
     private RecyclerView.Adapter adapter;
+    private RecyclerView.Adapter mysqlAdapter;
     private List<Course> courses;
     String googleName = "";
     ArrayList<String> gUsernameList = new ArrayList<String>();
@@ -88,30 +100,80 @@ public class MainActivity extends AppCompatActivity {
             //TODO a fragment to enter
         }
 
-        textViewSignIn.setText("You are signed in as: " + googleName);
+        textViewSignIn.setText(googleName);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         courses = new ArrayList<>();
-
-
-        courses.add(new Course("Java", "M-W 6:00pm-7:40pm"));
-        courses.add(new Course("C++", "M-W 2:20pm-4:00pm"));
-        courses.add(new Course("Android Programming", "T-TH 6:15-9:30pm"));
-        courses.add(new Course("CGS 1060", "F 7:00-10:20am"));
-        courses.add(new Course("CGS 1060", "T-TH 10:40-12:20pm"));
-        for(int i = 0; i < courses.size(); i++){
-            courses.get(i).setID(i);
-        }
-
-         //set some mock IDs...I'll think of a better system later.  Maybe use a database!
-        //for now I will hard code the classes
-        //TODO: allow user to edit the classes and save it in a database!
-        adapter = new MyAdapter(courses, this);
-        recyclerView.setAdapter(adapter);
-
+        JSON_DATA_WEB_CALL();
 
     }
+
+    public void JSON_DATA_WEB_CALL(){
+
+        jsonArrayRequest = new JsonArrayRequest(HTTP_JSON_URL,
+
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        JSON_PARSE_DATA_AFTER_WEBCALL(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.v("network_error", error.getNetworkTimeMs() + "");
+                    }
+                });
+
+        requestQueue = Volley.newRequestQueue(this);
+
+        requestQueue.add(jsonArrayRequest);
+    }
+
+    public void JSON_PARSE_DATA_AFTER_WEBCALL(JSONArray array){
+
+        for(int i = 0; i<array.length(); i++) {
+
+            Course GetDataAdapter2 = new Course();
+
+            JSONObject json = null;
+            try {
+                json = array.getJSONObject(i);
+
+                GetDataAdapter2.setCourseName(json.getString(GET_JSON_FROM_SERVER_NAME));
+                GetDataAdapter2.setCourseTime(json.getString(GET_JSON_CLASS_MEETING_TIMES));
+
+
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+            courses.add(GetDataAdapter2);
+            Log.v("addingCourse", GetDataAdapter2.getCourseName());
+        }
+
+        mysqlAdapter = new RecycleViewCourseViewAdapter(courses, this, googleName);
+
+        recyclerView.setAdapter(mysqlAdapter);
+
+    }
+
+    JsonArrayRequest jsonArrayRequest;
+    String GET_JSON_FROM_SERVER_NAME = "className";
+    String GET_JSON_CLASS_MEETING_TIMES = "meetingDaysAndTime";
+
+    String GET_JSON_ID = "studentId";
+    String HTTP_JSON_URL = "http://freerschool.com/OfficeHoursTracker/getClasses.php";
+    RequestQueue requestQueue;
+    View ChildView ;
+    int GetItemPosition ;
+    ArrayList<String> classNames;
+    ArrayList<String> meetingDaysAndTime;
+
+
+
 
     public void showStudentTime(View view){
         Intent intent = new Intent(view.getContext(), ViewStudentVisitors.class);
