@@ -44,7 +44,8 @@ public class BackgroundWorkerStudents extends AsyncTask<String, Void, String>
         String login_url = "http://freerschool.com/OfficeHoursTracker/insertStudentTime.php";
         try {
 
-            String post_data = URLEncoder.encode("googleId", "UTF-8") + "=" + URLEncoder.encode(googleId, "UTF-8");
+            String post_data = URLEncoder.encode("googleId", "UTF-8") + "=" + URLEncoder.encode(googleId, "UTF-8")+
+                    URLEncoder.encode("classId", "UTF-8") + "=" + URLEncoder.encode(classId, "UTF-8");
 
             URL url = new URL(login_url);
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
@@ -116,4 +117,4 @@ public class BackgroundWorkerStudents extends AsyncTask<String, Void, String>
 
 
 
-}
+

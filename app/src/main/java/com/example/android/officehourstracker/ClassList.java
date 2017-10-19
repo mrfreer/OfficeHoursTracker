@@ -39,13 +39,14 @@ public class ClassList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_list);
-
-
+        studentNames = new ArrayList<>();
+        studentId = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewStudents);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
        // students = readStudentsFromDBLocal();
-        students = readStudentsMySQL();
+        students = new ArrayList<>();
+        JSON_DATA_WEB_CALL();
         adapter = new MyAdapterStudents(students, this);
        // recyclerView.setAdapter(adapter);
 
@@ -71,18 +72,19 @@ public class ClassList extends AppCompatActivity {
         Cursor cursor = db.query(StudentDB.StudentEntry.TABLE_NAME, projection, StudentDB.StudentEntry.COLUMN_NAME_STUDENT_ID + ">0",
                 null, null, null, null);
         List itemIds = new ArrayList<>();
-        ArrayList<Student> studentNames = new ArrayList<>();
+        ArrayList<Student> studentNames1 = new ArrayList<>();
 
         while(cursor.moveToNext()){
             String studentId, name;
             long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(StudentDB.StudentEntry.COLUMN_NAME_STUDENT_ID));
             studentId = cursor.getString(cursor.getColumnIndexOrThrow(StudentDB.StudentEntry.COLUMN_NAME_STUDENT_ID));
             name = cursor.getString(cursor.getColumnIndexOrThrow(StudentDB.StudentEntry.COLUMN_NAME_TITLE_STUDENT_NAME));
-            studentNames.add(new Student(studentId, name));
+            studentNames1.add(new Student(studentId, name));
             itemIds.add(itemId);
         }
-        return studentNames;
+        return studentNames1;
     }
+
     public void JSON_DATA_WEB_CALL(){
 
         jsonArrayRequest = new JsonArrayRequest(HTTP_JSON_URL,
@@ -97,7 +99,7 @@ public class ClassList extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.v("network_error", error.getNetworkTimeMs() + "");
                     }
                 });
 
@@ -110,6 +112,7 @@ public class ClassList extends AppCompatActivity {
     public void JSON_PARSE_DATA_AFTER_WEBCALL(JSONArray array){
 
         for(int i = 0; i<array.length(); i++) {
+//            Toast.makeText(getApplicationContext(), array.length(), Toast.LENGTH_LONG).show();
 
             Student GetDataAdapter2 = new Student();
 
@@ -121,6 +124,7 @@ public class ClassList extends AppCompatActivity {
                 GetDataAdapter2.setStudentID(json.getString(GET_JSON_ID));
                 studentNames.add(json.getString(GET_JSON_FROM_SERVER_NAME));
                 studentId.add(json.getString(GET_JSON_ID));
+                //students.add(GetDataAdapter2);
                 //cool!
 
             } catch (JSONException e) {
@@ -128,6 +132,7 @@ public class ClassList extends AppCompatActivity {
                 e.printStackTrace();
             }
             students.add(GetDataAdapter2);
+            Log.v("addingStudent", GetDataAdapter2.getStudentID());
         }
 
         mysqlAdapter = new RecyclerViewCardViewAdapter(students, this);
@@ -178,16 +183,16 @@ public class ClassList extends AppCompatActivity {
         Cursor cursor = db.query(StudentDB.StudentEntry.TABLE_NAME, projection, StudentDB.StudentEntry.COLUMN_NAME_STUDENT_ID + ">0",
                 null, null, null, null);
         List itemIds = new ArrayList<>();
-        List studentNames = new ArrayList<>();
+        List studentNames1 = new ArrayList<>();
         while(cursor.moveToNext()){
             long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(StudentDB.StudentEntry.COLUMN_NAME_STUDENT_ID));
-            studentNames.add(cursor.getString(cursor.getColumnIndexOrThrow(StudentDB.StudentEntry.COLUMN_NAME_TITLE_STUDENT_NAME)));
+            studentNames1.add(cursor.getString(cursor.getColumnIndexOrThrow(StudentDB.StudentEntry.COLUMN_NAME_TITLE_STUDENT_NAME)));
             itemIds.add(itemId);
         }
         cursor.close();
-        Toast.makeText(getApplicationContext(), studentNames.size() + " NUM STUDENTS", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), studentNames1.size() + " NUM STUDENTS", Toast.LENGTH_LONG).show();
         int counter = 0;
-        for(Object a : studentNames){
+        for(Object a : studentNames1){
             Toast.makeText(getApplicationContext(), a.toString() + " " + itemIds.get(counter), Toast.LENGTH_LONG).show();
             counter++;
         }
