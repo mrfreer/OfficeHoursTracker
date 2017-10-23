@@ -19,10 +19,16 @@
         import android.widget.TextView;
         import android.widget.Toast;
 
+        import com.android.volley.AuthFailureError;
+        import com.android.volley.Request;
         import com.android.volley.RequestQueue;
         import com.android.volley.Response;
         import com.android.volley.VolleyError;
+        import com.android.volley.VolleyLog;
         import com.android.volley.toolbox.JsonArrayRequest;
+        import com.android.volley.toolbox.JsonObjectRequest;
+        import com.android.volley.toolbox.JsonRequest;
+        import com.android.volley.toolbox.StringRequest;
         import com.android.volley.toolbox.Volley;
 
         import org.json.JSONArray;
@@ -32,8 +38,10 @@
         import java.text.SimpleDateFormat;
         import java.util.ArrayList;
         import java.util.Date;
+        import java.util.HashMap;
         import java.util.List;
         import java.util.Locale;
+        import java.util.Map;
         import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,12 +57,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textViewSignIn = (TextView) findViewById(R.id.textViewSignIn);
-        AccountManager accountManager = AccountManager.get(this);
+        AccountManager accountManager = (AccountManager)getSystemService(getApplicationContext().ACCOUNT_SERVICE);
         Account[] accounts = accountManager.getAccountsByType("com.google");
-        //TODO: request user to add permissions when they start the app!
+        Log.v("writing", accounts.length + "");
 
-        gUsernameList.clear();
-//loop
         for (Account account : accounts) {
             gUsernameList.add(account.name);
             Log.i("testingtesting", account.name);
@@ -77,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                     id)
             {
                 Log.d("You-select-gmail", gUsernameList.get(position));
+                googleName = gUsernameList.get(position);
+
             }
         });
 
@@ -87,16 +95,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         final Dialog dialog = builder.create();
-        if(gUsernameList.size() > 1)
-            dialog.show();
+        //if(gUsernameList.size() > 1)
+        //    dialog.show();
+        googleName = gUsernameList.get(0);
 
-
-        if(gUsernameList.size() > 0){
-            googleName = gUsernameList.get(0);
-        }
-        else{
+        if(gUsernameList.size() == 0){
             Toast.makeText(getApplicationContext(), "You aren't logged into an account", Toast.LENGTH_LONG).show();
-            //TODO make a website to create an account
+            //TODO make a website to create an account?
             //TODO a fragment to enter
         }
 
@@ -110,9 +115,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void JSON_DATA_WEB_CALL(){
-
-        jsonArrayRequest = new JsonArrayRequest(HTTP_JSON_URL,
-
+        HTTP_JSON_URL += "?googleId=" + googleName;
+        jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
+                HTTP_JSON_URL,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -132,22 +137,19 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
+
+
     public void JSON_PARSE_DATA_AFTER_WEBCALL(JSONArray array){
 
         for(int i = 0; i<array.length(); i++) {
 
             Course GetDataAdapter2 = new Course();
-
             JSONObject json = null;
             try {
                 json = array.getJSONObject(i);
-
                 GetDataAdapter2.setCourseName(json.getString(GET_JSON_FROM_SERVER_NAME));
                 GetDataAdapter2.setCourseTime(json.getString(GET_JSON_CLASS_MEETING_TIMES));
-
-
             } catch (JSONException e) {
-
                 e.printStackTrace();
             }
             courses.add(GetDataAdapter2);
@@ -155,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mysqlAdapter = new RecycleViewCourseViewAdapter(courses, this, googleName);
-
         recyclerView.setAdapter(mysqlAdapter);
 
     }

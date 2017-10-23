@@ -26,7 +26,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ClassList extends AppCompatActivity {
 
@@ -48,11 +50,9 @@ public class ClassList extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewStudents);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-       // students = readStudentsFromDBLocal();
         students = new ArrayList<>();
         JSON_DATA_WEB_CALL();
         adapter = new MyAdapterStudents(students, this);
-       // recyclerView.setAdapter(adapter);
 
         textViewClassName = (TextView) findViewById(R.id.textViewClass);
         textViewClassName.setText(getIntent().getExtras().getString("className"));
@@ -89,6 +89,7 @@ public class ClassList extends AppCompatActivity {
         return studentNames1;
     }
 
+
     public void JSON_DATA_WEB_CALL(){
 
         jsonArrayRequest = new JsonArrayRequest(HTTP_JSON_URL,
@@ -105,7 +106,16 @@ public class ClassList extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Log.v("network_error", error.getNetworkTimeMs() + "");
                     }
-                });
+                }
+                )
+        {
+            protected Map<String, String> getParams(){
+                Map<String, String> jsonParams = new HashMap<>();
+                jsonParams.put("googleId", googleId);
+                jsonParams.put("classId", textViewClassName.getText().toString());
+                return jsonParams;
+            }
+        };
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -128,6 +138,7 @@ public class ClassList extends AppCompatActivity {
                 GetDataAdapter2.setStudentID(json.getString(GET_JSON_ID));
                 studentNames.add(json.getString(GET_JSON_FROM_SERVER_NAME));
                 studentId.add(json.getString(GET_JSON_ID));
+
                 //students.add(GetDataAdapter2);
                 //cool!
 
