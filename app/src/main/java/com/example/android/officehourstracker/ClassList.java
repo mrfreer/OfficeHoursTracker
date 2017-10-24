@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -38,7 +40,7 @@ public class ClassList extends AppCompatActivity {
     private List<Student> students;
     private RecyclerView.Adapter adapter;
     private RecyclerView.Adapter mysqlAdapter;
-    private String googleId;
+    private String googleId, classId;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +49,7 @@ public class ClassList extends AppCompatActivity {
         studentId = new ArrayList<>();
         Intent intent = getIntent();
         googleId = intent.getStringExtra("googleId");
+        classId = intent.getStringExtra("className");
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewStudents);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -91,9 +94,10 @@ public class ClassList extends AppCompatActivity {
 
 
     public void JSON_DATA_WEB_CALL(){
-
-        jsonArrayRequest = new JsonArrayRequest(HTTP_JSON_URL,
-
+        HTTP_JSON_URL += "?googleId=" + googleId + "&classId=" +classId;
+        Log.d("writing_this", HTTP_JSON_URL);
+        jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
+        HTTP_JSON_URL,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {

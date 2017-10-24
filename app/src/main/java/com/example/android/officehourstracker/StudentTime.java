@@ -5,14 +5,39 @@ package com.example.android.officehourstracker;
  */
 
 public class StudentTime {
+    private String studentName;
     private String studentID;
     private String timeStamp;
     private String googleId;
+
+    public StudentTime(){
+
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public void setStudentID(String studentID) {
+        this.studentID = studentID;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
 
     public StudentTime(String studentID, String timeStamp, String googleId) {
         this.studentID = studentID;
         this.timeStamp = timeStamp;
         this.googleId = googleId;
+    }
+
+    public String getStudentName() {
+        return studentName;
     }
 
     public String getGoogleId() {

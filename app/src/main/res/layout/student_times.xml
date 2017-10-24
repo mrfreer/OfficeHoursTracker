@@ -9,6 +9,7 @@
         android:layout_margin="10dp"
 
         >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,15 +20,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Name"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-                />
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
 
             <TextView
+                android:id="@+id/textViewTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textViewTime"
-                android:text="Time:"
-                />
+                android:text="Time:" />
+
+            <TextView
+                android:id="@+id/textViewStudentId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Student Id:" />
 
 
         </LinearLayout>
