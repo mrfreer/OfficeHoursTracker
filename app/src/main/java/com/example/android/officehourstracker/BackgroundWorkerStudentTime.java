@@ -68,7 +68,7 @@ public class BackgroundWorkerStudentTime extends AsyncTask<String, Void, String>
         "iso-8859-1"));
         String line = "";
         while((line = bufferedReader.readLine()) != null){
-        //Log.v("testingWriting", line);
+        Log.v("insideStudentWorker", line);
         result += line;
 
         }
@@ -103,7 +103,7 @@ protected void onPostExecute(String s) {
 //        alertDialog.show();
 
         //show response to server
-        //Log.v("testingWriting", getSecretId());
+        Log.v("getHere?", s);
         getWriteData();
         }
 

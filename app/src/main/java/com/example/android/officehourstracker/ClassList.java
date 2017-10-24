@@ -111,15 +111,7 @@ public class ClassList extends AppCompatActivity {
                         Log.v("network_error", error.getNetworkTimeMs() + "");
                     }
                 }
-                )
-        {
-            protected Map<String, String> getParams(){
-                Map<String, String> jsonParams = new HashMap<>();
-                jsonParams.put("googleId", googleId);
-                jsonParams.put("classId", textViewClassName.getText().toString());
-                return jsonParams;
-            }
-        };
+                );
 
         requestQueue = Volley.newRequestQueue(this);
 

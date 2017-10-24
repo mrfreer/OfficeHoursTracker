@@ -46,7 +46,7 @@ public class RecycleViewStudentTimes extends RecyclerView.Adapter<RecycleViewStu
 
             StudentTime getDataAdapter1 =  studentTimes.get(position);
             //TODO make a call to the database to find out the name using the student ID
-            holder.StudentId.setText(getDataAdapter1.getStudentID());
+            holder.StudentId.setText(getDataAdapter1.getStudentID()+"");
             holder.StudentTime.setText(getDataAdapter1.getTimeStamp());
         }
 
@@ -65,8 +65,8 @@ public class RecycleViewStudentTimes extends RecyclerView.Adapter<RecycleViewStu
 
                 super(itemView);
 
-                StudentName = (TextView) itemView.findViewById(R.id.textViewStudent) ;
-                StudentId = (TextView) itemView.findViewById(R.id.textViewID);
+                StudentName = (TextView) itemView.findViewById(R.id.textViewStudentNameTime) ;
+                StudentId = (TextView) itemView.findViewById(R.id.textViewStudentId);
                 StudentTime = (TextView) itemView.findViewById(R.id.textViewTime);
                 itemView.setClickable(true);
                 itemView.setOnClickListener(this);

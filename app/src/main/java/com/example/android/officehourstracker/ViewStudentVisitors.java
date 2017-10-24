@@ -25,10 +25,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class ViewStudentVisitors extends AppCompatActivity {
 
@@ -36,28 +40,31 @@ public class ViewStudentVisitors extends AppCompatActivity {
     private List<StudentTime> studentTimes;
     private RecyclerView.Adapter adapter;
     Intent intent;
-
+    String curTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_student_visitors);
-        ArrayList<StudentTime> arrayList = readDataLocal();
-        adapter = new AdapterStudentTime(arrayList, this);
+        studentTimes = new ArrayList<>();
         intent = getIntent();
 
-        BackgroundWorkerStudentTime backgroundWorkerStudentTime = new BackgroundWorkerStudentTime(this, this);
-        backgroundWorkerStudentTime.execute(intent.getStringExtra("googleId"), intent.getStringExtra("studentID"),
-                intent.getStringExtra("studentName"));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+        sdf.setTimeZone(TimeZone.getTimeZone("EST"));
+        curTime = sdf.format(new Date()).toString();
+        //BackgroundWorkerStudentTime backgroundWorkerStudentTime = new BackgroundWorkerStudentTime(this, this);
+        //backgroundWorkerStudentTime.execute(intent.getStringExtra("googleId"), intent.getStringExtra("studentID"),
+        //        "JOHN DOE", curTime
+        //        );
         recyclerView = (RecyclerView) findViewById(R.id.recycleViewTimes);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        JSON_DATA_WEB_CALL();
 
     }
 
     public void JSON_DATA_WEB_CALL(){
+
         HTTP_JSON_URL += "?googleId=" + intent.getStringExtra("googleId");
-        Log.d("writing_this", HTTP_JSON_URL);
         jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
                 HTTP_JSON_URL,
                 new Response.Listener<JSONArray>() {
@@ -94,7 +101,7 @@ public class ViewStudentVisitors extends AppCompatActivity {
 
                 GetDataAdapter2.setTimeStamp(json.getString(GET_JSON_TIME));
                 GetDataAdapter2.setStudentID(json.getString(GET_JSON_ID));
-
+                Log.v("writing_here", json.getString(GET_JSON_ID));
 
             } catch (JSONException e) {
 
@@ -116,37 +123,6 @@ public class ViewStudentVisitors extends AppCompatActivity {
     String HTTP_JSON_URL = "http://freerschool.com/OfficeHoursTracker/getStudentTime.php";
     RequestQueue requestQueue;
 
-    public ArrayList<StudentTime> readDataLocal(){
-        Log.i("WRITING_MDC", " READING DATABASE");
-        SQLiteDatabase db = new ClassListDbHelper(this).getReadableDatabase();
-        String [] projection = {
-                StudentTimesDB.COLUMN_NAME_STUDENT_ID
-                ,StudentTimesDB.COLUMN_TIMESTAMP
-        };
-
-        Cursor cursor = db.query(StudentTimesDB.TABLE_NAME, projection, StudentTimesDB.COLUMN_NAME_STUDENT_ID + ">0",
-                null, null, null, null);
-        List itemIds = new ArrayList<>();
-        ArrayList<StudentTime> studentNamesTimes = new ArrayList<>();
-        Intent prevIntent = getIntent();
-        while(cursor.moveToNext()){
-
-            String id = cursor.getString(cursor.getColumnIndexOrThrow(StudentTimesDB.COLUMN_NAME_STUDENT_ID));
-            String time = cursor.getString(cursor.getColumnIndexOrThrow(StudentTimesDB.COLUMN_TIMESTAMP));
-            studentNamesTimes.add(new StudentTime(id, time, prevIntent.getStringExtra("googleId")));
-        }
-        cursor.close();
-        Log.i("testing_testing", studentNamesTimes.size() + "");
-        int counter = 0;
-        return studentNamesTimes;
-    }
-
-    public ArrayList<StudentTime> readMySQLData(){
-        ArrayList<StudentTime> arrayList = new ArrayList<>();
-
-
-        return arrayList;
-    }
 
 
 }
