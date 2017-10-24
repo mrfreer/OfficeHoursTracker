@@ -45,10 +45,10 @@ public class BackgroundWorkerStudentTime extends AsyncTask<String, Void, String>
                 String timeEntered = params[3];
         String login_url = "http://freerschool.com/OfficeHoursTracker/insertStudentTime.php";
         try {
-        String post_data = URLEncoder.encode("googleId", "UTF-8") + "=" + URLEncoder.encode(googleId, "UTF-8")
-                + URLEncoder.encode("studentId", "UTF-8") + "=" + URLEncoder.encode(studentId, "UTF-8")
-                + URLEncoder.encode("studentName", "UTF-8") + "=" + URLEncoder.encode(studentName, "UTF-8")
-                + URLEncoder.encode("timeEntered", "UTF-8") + "=" + URLEncoder.encode(timeEntered, "UTF-8")
+        String post_data = URLEncoder.encode("googleId", "UTF-8") + "=" + URLEncoder.encode(googleId, "UTF-8") +
+                "&" + URLEncoder.encode("studentId", "UTF-8") + "=" + URLEncoder.encode(studentId, "UTF-8")
+                + "&" + URLEncoder.encode("studentName", "UTF-8") + "=" + URLEncoder.encode(studentName, "UTF-8")
+                + "&" +URLEncoder.encode("timeEntered", "UTF-8") + "=" + URLEncoder.encode(timeEntered, "UTF-8")
                 ;
 
         URL url = new URL(login_url);
@@ -60,6 +60,7 @@ public class BackgroundWorkerStudentTime extends AsyncTask<String, Void, String>
         BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
         bufferedWriter.write(post_data);
+            Log.v("insideStudentWorker1", post_data);
         bufferedWriter.flush();
         bufferedWriter.close();
         outputStream.close();
@@ -68,7 +69,7 @@ public class BackgroundWorkerStudentTime extends AsyncTask<String, Void, String>
         "iso-8859-1"));
         String line = "";
         while((line = bufferedReader.readLine()) != null){
-        Log.v("insideStudentWorker", line);
+        Log.v("insideStudentWorker2", line);
         result += line;
 
         }
@@ -82,8 +83,10 @@ public class BackgroundWorkerStudentTime extends AsyncTask<String, Void, String>
         }
         catch (MalformedURLException e){
         e.printStackTrace();
+                Log.v("errorhere", "do we get here?");
         }
         catch (IOException e){
+                Log.v("errorhere2", "do we get here?");
         e.printStackTrace();
         }
         return result;
