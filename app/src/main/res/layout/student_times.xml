@@ -19,6 +19,7 @@
                 android:id="@+id/textViewStudentNameTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="monospace"
                 android:text="Name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
 
@@ -26,13 +27,15 @@
                 android:id="@+id/textViewTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Time:" />
+                android:text="Time:"
+                android:typeface="monospace" />
 
             <TextView
                 android:id="@+id/textViewStudentId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Student Id:" />
+                android:text="Student Id:"
+                android:typeface="monospace" />
 
 
         </LinearLayout>

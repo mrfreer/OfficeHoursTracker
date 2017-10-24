@@ -110,11 +110,16 @@ public class ViewStudentVisitors extends AppCompatActivity {
             studentTimes.add(GetDataAdapter2);
             Log.v("addingStudentTime", GetDataAdapter2.getStudentID());
         }
-
+        Log.v("dowehavegoogleid", intent.getStringExtra("googleId"));
         adapter = new RecycleViewStudentTimes(studentTimes, this, intent.getStringExtra("googleId"));
 
         recyclerView.setAdapter(adapter);
 
+    }
+
+    public void returnHome(View view){
+        Intent intent = new Intent(view.getContext(), MainActivity.class);
+        startActivity(intent);
     }
 
     JsonArrayRequest jsonArrayRequest;

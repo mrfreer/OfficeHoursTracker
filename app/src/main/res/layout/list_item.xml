@@ -18,16 +18,16 @@
                 android:id="@+id/textViewCourse"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fontFamily="monospace"
                 android:text="Course"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-                />
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
 
             <TextView
+                android:id="@+id/textViewTime"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/textViewTime"
-                android:text="Time"
-                />
+                android:fontFamily="monospace"
+                android:text="Time" />
 
 
         </LinearLayout>

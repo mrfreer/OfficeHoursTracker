@@ -2,12 +2,12 @@
     <string name="app_name">OfficeHoursTracker</string>
     <string name="title_activity_class_list">ClassList</string>
     <string name="title_activity_view_student_visitors">View Student Visitors</string>
-    <string name="title_activity_upload_roster">UploadRoster</string>
+    <string name="title_activity_upload_roster">Upload your roster</string>
     <string name="upload">Uploading your information to the app is easy!</string>
     <string name="upload1">&#8226;All you need to do is upload a csv file with one column ID and another column Name.</string>
     <string name="upload2">&#8226;If you are a MDC professor, simply download your roster from MDConnect and save it as a csv file.</string>
     <string name="upload3">&#8226;Click below to generate your secret key and enter it at:</string>
-    <string name="upload4">http://freerschool.com/OfficeHoursTracker/file-upload-form.php</string>
+    <string name="URL_UPLOAD">http://freerschool.com/OfficeHoursTracker/file-upload-form.php</string>
     <string name="upload5">The secret code is to uniquely identify you!</string>
 
 

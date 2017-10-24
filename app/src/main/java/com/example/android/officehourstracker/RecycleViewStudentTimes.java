@@ -48,6 +48,7 @@ public class RecycleViewStudentTimes extends RecyclerView.Adapter<RecycleViewStu
             //TODO make a call to the database to find out the name using the student ID
             holder.StudentId.setText(getDataAdapter1.getStudentID()+"");
             holder.StudentTime.setText(getDataAdapter1.getTimeStamp());
+            holder.StudentName.setText(getDataAdapter1.getStudentName());
         }
 
         @Override

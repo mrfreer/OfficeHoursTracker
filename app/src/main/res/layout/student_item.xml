@@ -18,16 +18,16 @@
                 android:id="@+id/textViewStudent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="monospace"
                 android:text="Name"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-                />
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
 
             <TextView
+                android:id="@+id/textViewID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textViewID"
-                android:text="ID:"
-                />
+                android:fontFamily="monospace"
+                android:text="ID:" />
 
 
         </LinearLayout>

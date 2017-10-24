@@ -180,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(view.getContext(), ViewStudentVisitors.class);
         intent.putExtra("googleId", googleName);
         startActivity(intent);
-
     }
 
     public void OnLogin(View view){

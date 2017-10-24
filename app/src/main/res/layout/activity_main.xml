@@ -11,16 +11,21 @@
 
    <Button
        android:id="@+id/buttonUpload"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
+       style="@style/Widget.AppCompat.Button.Borderless"
+       android:layout_width="181dp"
+       android:layout_height="54dp"
        android:layout_marginBottom="26dp"
        android:layout_marginEnd="15dp"
        android:onClick="uploadInfo"
-       android:text="Upload your information"
+       android:text="@string/title_activity_upload_roster"
+       android:typeface="monospace"
        app:layout_constraintBottom_toBottomOf="parent"
        app:layout_constraintRight_toRightOf="parent"
        tools:layout_constraintBottom_creator="1"
-       tools:layout_constraintRight_creator="1" />
+       tools:layout_constraintRight_creator="1"
+       tools:layout_editor_absoluteY="431dp"
+       android:layout_marginRight="15dp"
+       tools:layout_editor_absoluteX="188dp" />
 
    <TextView
        android:id="@+id/textViewSignIn"
@@ -28,6 +33,7 @@
        android:layout_height="wrap_content"
        android:layout_marginStart="16dp"
        android:layout_marginTop="5dp"
+       android:fontFamily="serif"
        android:text="You are signed in as: "
        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
        app:layout_constraintLeft_toLeftOf="parent"
@@ -37,11 +43,13 @@
 
    <Button
        android:id="@+id/buttonViewInfo"
-       android:layout_width="0dp"
-       android:layout_height="75dp"
+       style="@style/Widget.AppCompat.Button.Borderless"
+       android:layout_width="178dp"
+       android:layout_height="55dp"
        android:layout_marginBottom="26dp"
-       android:layout_marginEnd="32dp"
-       android:layout_marginStart="26dp"
+       android:layout_marginEnd="6dp"
+       android:layout_marginStart="6dp"
+       android:fontFamily="monospace"
        android:onClick="showStudentTime"
        android:text="View Student Data"
        app:layout_constraintBottom_toBottomOf="parent"
@@ -49,7 +57,8 @@
        app:layout_constraintRight_toLeftOf="@+id/buttonUpload"
        tools:layout_constraintBottom_creator="1"
        tools:layout_constraintLeft_creator="1"
-       tools:layout_constraintRight_creator="1" />
+       tools:layout_constraintRight_creator="1"
+       tools:layout_editor_absoluteY="430dp" />
 
    <TextView
        android:id="@+id/textView4"
@@ -57,6 +66,7 @@
        android:layout_height="0dp"
        android:layout_marginStart="16dp"
        android:layout_marginTop="36dp"
+       android:fontFamily="sans-serif"
        android:text="Select Your Class to Record the Student Currently Attending Office Hours:"
        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
        app:layout_constraintLeft_toLeftOf="parent"
@@ -66,33 +76,18 @@
 
    <android.support.v7.widget.RecyclerView
        android:id="@+id/recyclerView"
-       android:layout_width="0dp"
-       android:layout_height="0dp"
+       android:layout_width="match_parent"
+       android:layout_height="327dp"
 
-       android:layout_marginBottom="13dp"
-       android:layout_marginEnd="10dp"
-       android:layout_marginStart="10dp"
-       android:layout_marginTop="17dp"
-       app:layout_constraintBottom_toTopOf="@+id/button"
+       android:layout_marginEnd="22dp"
+       android:layout_marginStart="22dp"
+       android:layout_marginTop="28dp"
+       app:layout_constraintHorizontal_bias="1.0"
        app:layout_constraintLeft_toLeftOf="parent"
        app:layout_constraintRight_toRightOf="parent"
        app:layout_constraintTop_toBottomOf="@+id/textView4"
-       tools:layout_constraintBottom_creator="1"
        tools:layout_constraintLeft_creator="1"
        tools:layout_constraintRight_creator="1"
        tools:layout_constraintTop_creator="1"></android.support.v7.widget.RecyclerView>
-
-   <Button
-       android:id="@+id/button"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_marginBottom="9dp"
-       android:layout_marginEnd="16dp"
-       android:onClick="OnLogin"
-       android:text="Test PHP"
-       app:layout_constraintBottom_toTopOf="@+id/buttonUpload"
-       app:layout_constraintRight_toRightOf="parent"
-       tools:layout_constraintBottom_creator="1"
-       tools:layout_constraintRight_creator="1" />
 
 </android.support.constraint.ConstraintLayout>
