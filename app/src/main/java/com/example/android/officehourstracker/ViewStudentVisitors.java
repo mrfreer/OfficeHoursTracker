@@ -52,7 +52,9 @@ public class ViewStudentVisitors extends AppCompatActivity {
         sdf.setTimeZone(TimeZone.getTimeZone("EST"));
         curTime = sdf.format(new Date()).toString();
         BackgroundWorkerStudentTime backgroundWorkerStudentTime = new BackgroundWorkerStudentTime(this, this);
-        backgroundWorkerStudentTime.execute(intent.getStringExtra("googleId"), intent.getStringExtra("studentID"),
+        Log.v("testing_variables", intent.getStringExtra("googleId"));
+        Log.v("testing_variables1", intent.getStringExtra("studentId"));
+        backgroundWorkerStudentTime.execute(intent.getStringExtra("googleId"), intent.getStringExtra("studentId"),
                 "JOHN DOE", curTime
                 );
         recyclerView = (RecyclerView) findViewById(R.id.recycleViewTimes);

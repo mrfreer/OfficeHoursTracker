@@ -2,6 +2,7 @@ package com.example.android.officehourstracker;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +69,8 @@ public class RecyclerViewCardViewAdapter extends RecyclerView.Adapter<RecyclerVi
             final Intent intent = new Intent(v.getContext(), ViewStudentVisitors.class);
 
             intent.putExtra("studentName", StudentName.getText().toString());
-            intent.putExtra("studentID", StudentId.getText().toString());
+            intent.putExtra("studentId", StudentId.getText().toString());
+            Log.v("gethere", googleId + " anything?");
             intent.putExtra("googleId", googleId);
             context.startActivity(intent);
         }

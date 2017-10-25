@@ -31,7 +31,7 @@ public class ClassList extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<Student> students;
     private RecyclerView.Adapter mysqlAdapter;
-    private String googleId, classId;
+    private String googleId, classId, meetingTime;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +40,8 @@ public class ClassList extends AppCompatActivity {
         studentId = new ArrayList<>();
         Intent intent = getIntent();
         googleId = intent.getStringExtra("googleId");
-        classId = intent.getStringExtra("className");
+        classId = intent.getStringExtra("classId");
+        meetingTime = intent.getStringExtra("meetingDaysAndTime");
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewStudents);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -49,8 +50,7 @@ public class ClassList extends AppCompatActivity {
         textViewClassName = (TextView) findViewById(R.id.textViewClass);
         textViewClassName.setText(getIntent().getExtras().getString("className"));
         String courseIdentification = Integer.toString(getIntent().getExtras().getInt("classID")) + " is the class ID.";
-        Toast.makeText(getApplicationContext(), courseIdentification, Toast.LENGTH_LONG).show();
-
+        Log.v("writing_class_id", courseIdentification);
     }
 
     public ArrayList<Student> readStudentsFromDBLocal(){
@@ -81,7 +81,7 @@ public class ClassList extends AppCompatActivity {
     }
 
     public void JSON_DATA_WEB_CALL(){
-        HTTP_JSON_URL += "?googleId=" + googleId + "&classId=" +classId;
+        HTTP_JSON_URL += "?classId" + classId;
         Log.d("writing_this", HTTP_JSON_URL);
         jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
         HTTP_JSON_URL,
@@ -123,6 +123,7 @@ public class ClassList extends AppCompatActivity {
             students.add(GetDataAdapter2);
             Log.v("addingStudent", GetDataAdapter2.getStudentID());
         }
+
         mysqlAdapter = new RecyclerViewCardViewAdapter(students, this, googleId);
         recyclerView.setAdapter(mysqlAdapter);
     }
@@ -161,7 +162,6 @@ public class ClassList extends AppCompatActivity {
             itemIds.add(itemId);
         }
         cursor.close();
-        Toast.makeText(getApplicationContext(), studentNames1.size() + " NUM STUDENTS", Toast.LENGTH_LONG).show();
         int counter = 0;
         for(Object a : studentNames1){
             Toast.makeText(getApplicationContext(), a.toString() + " " + itemIds.get(counter), Toast.LENGTH_LONG).show();

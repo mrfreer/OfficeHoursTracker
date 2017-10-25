@@ -35,7 +35,6 @@ public class RecycleViewCourseViewAdapter extends RecyclerView.Adapter<RecycleVi
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
 
             ViewHolder viewHolder = new ViewHolder(view);
-
             return viewHolder;
         }
 
@@ -46,6 +45,7 @@ public class RecycleViewCourseViewAdapter extends RecyclerView.Adapter<RecycleVi
 
             holder.CourseName.setText(getDataAdapter1.getCourseName());
             holder.CourseTime.setText(getDataAdapter1.getCourseTime());
+            holder.CourseId.setText(getDataAdapter1.getID() + "");
         }
 
         @Override
@@ -56,7 +56,7 @@ public class RecycleViewCourseViewAdapter extends RecyclerView.Adapter<RecycleVi
 
         class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-            public TextView CourseName, CourseTime;
+            public TextView CourseName, CourseTime, CourseId;
 
 
             public ViewHolder(View itemView) {
@@ -65,14 +65,16 @@ public class RecycleViewCourseViewAdapter extends RecyclerView.Adapter<RecycleVi
 
                 CourseName = (TextView) itemView.findViewById(R.id.textViewCourse) ;
                 CourseTime = (TextView) itemView.findViewById(R.id.textViewTime);
+                CourseId = (TextView) itemView.findViewById(R.id.textViewCourseId);
                 itemView.setClickable(true);
                 itemView.setOnClickListener(this);
             }
 
             public void onClick(View v) {
                 final Intent intent = new Intent(v.getContext(), ClassList.class);
-                intent.putExtra("className", CourseName.getText().toString());
+                intent.putExtra("classId", CourseId.getText().toString());
                 intent.putExtra("googleId", googleName);
+                //TODO will this work if it's invisible?
                 context.startActivity(intent);
             }
         }

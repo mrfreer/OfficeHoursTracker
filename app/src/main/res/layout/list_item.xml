@@ -15,6 +15,12 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/textViewCourseId"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:visibility="invisible" />
+
+            <TextView
                 android:id="@+id/textViewCourse"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
