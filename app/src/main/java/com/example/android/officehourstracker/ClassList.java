@@ -5,32 +5,24 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ClassList extends AppCompatActivity {
 
@@ -38,7 +30,6 @@ public class ClassList extends AppCompatActivity {
     TextView textViewClassName;
     private RecyclerView recyclerView;
     private List<Student> students;
-    private RecyclerView.Adapter adapter;
     private RecyclerView.Adapter mysqlAdapter;
     private String googleId, classId;
 
@@ -55,15 +46,12 @@ public class ClassList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         students = new ArrayList<>();
         JSON_DATA_WEB_CALL();
-        adapter = new MyAdapterStudents(students, this);
-
         textViewClassName = (TextView) findViewById(R.id.textViewClass);
         textViewClassName.setText(getIntent().getExtras().getString("className"));
         String courseIdentification = Integer.toString(getIntent().getExtras().getInt("classID")) + " is the class ID.";
         Toast.makeText(getApplicationContext(), courseIdentification, Toast.LENGTH_LONG).show();
 
     }
-
 
     public ArrayList<Student> readStudentsFromDBLocal(){
 
@@ -92,7 +80,6 @@ public class ClassList extends AppCompatActivity {
         return studentNames1;
     }
 
-
     public void JSON_DATA_WEB_CALL(){
         HTTP_JSON_URL += "?googleId=" + googleId + "&classId=" +classId;
         Log.d("writing_this", HTTP_JSON_URL);
@@ -112,9 +99,7 @@ public class ClassList extends AppCompatActivity {
                     }
                 }
                 );
-
         requestQueue = Volley.newRequestQueue(this);
-
         requestQueue.add(jsonArrayRequest);
     }
 
@@ -122,10 +107,7 @@ public class ClassList extends AppCompatActivity {
     public void JSON_PARSE_DATA_AFTER_WEBCALL(JSONArray array){
 
         for(int i = 0; i<array.length(); i++) {
-//            Toast.makeText(getApplicationContext(), array.length(), Toast.LENGTH_LONG).show();
-
             Student GetDataAdapter2 = new Student();
-
             JSONObject json = null;
             try {
                 json = array.getJSONObject(i);
@@ -134,10 +116,6 @@ public class ClassList extends AppCompatActivity {
                 GetDataAdapter2.setStudentID(json.getString(GET_JSON_ID));
                 studentNames.add(json.getString(GET_JSON_FROM_SERVER_NAME));
                 studentId.add(json.getString(GET_JSON_ID));
-
-                //students.add(GetDataAdapter2);
-                //cool!
-
             } catch (JSONException e) {
 
                 e.printStackTrace();
@@ -145,11 +123,8 @@ public class ClassList extends AppCompatActivity {
             students.add(GetDataAdapter2);
             Log.v("addingStudent", GetDataAdapter2.getStudentID());
         }
-
         mysqlAdapter = new RecyclerViewCardViewAdapter(students, this, googleId);
-
         recyclerView.setAdapter(mysqlAdapter);
-
     }
 
     JsonArrayRequest jsonArrayRequest;
@@ -161,19 +136,6 @@ public class ClassList extends AppCompatActivity {
     int GetItemPosition ;
     ArrayList<String> studentNames;
     ArrayList<String> studentId;
-
-
-    public ArrayList<Student> readStudentsMySQL(){
-        //TODO MOST important, I need to use JSON to create the cards:
-        //TODO https://androidjson.com/recyclerview-json-listview-example/
-
-        //http://freerschool.com/OfficeHoursTracker/getStudents.php
-        ArrayList<Student> arrayList = new ArrayList<>();
-
-
-
-        return arrayList;
-    }
 
     public void readFromStudents(View view){
 
@@ -187,8 +149,6 @@ public class ClassList extends AppCompatActivity {
                 //,StudentDB.StudentEntry.COLUMN_TIME
         };
 
-
-        //String sortOrder = StudentDB.StudentEntry.COLUMN_NAME_STUDENT_ID + " ASC";
         String [] selectionArgs = {"students"};
 
         Cursor cursor = db.query(StudentDB.StudentEntry.TABLE_NAME, projection, StudentDB.StudentEntry.COLUMN_NAME_STUDENT_ID + ">0",
@@ -207,9 +167,5 @@ public class ClassList extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), a.toString() + " " + itemIds.get(counter), Toast.LENGTH_LONG).show();
             counter++;
         }
-
-
     }
-
-
 }
