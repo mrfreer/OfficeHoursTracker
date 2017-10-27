@@ -32,8 +32,6 @@ public class Course {
         this.courseName = courseName;
         this.courseTime = courseTime;
         students = new ArrayList<>();
-        students.add(new Student("123", "Billy Johnson"));
-        students.add(new Student("234", "Jon Smith"));
     }
 
     //TODO: Add student names from mysql database

@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
             JSONObject json = null;
             try {
                 json = array.getJSONObject(i);
+                GetDataAdapter2.setID(json.getInt(GET_CLASS_ID));
                 GetDataAdapter2.setCourseName(json.getString(GET_JSON_FROM_SERVER_NAME));
                 GetDataAdapter2.setCourseTime(json.getString(GET_JSON_CLASS_MEETING_TIMES));
             } catch (JSONException e) {
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
     JsonArrayRequest jsonArrayRequest;
     String GET_JSON_FROM_SERVER_NAME = "className";
     String GET_JSON_CLASS_MEETING_TIMES = "meetingDaysAndTime";
-
+    String GET_CLASS_ID = "classId";
     String GET_JSON_ID = "studentId";
     String HTTP_JSON_URL = "http://freerschool.com/OfficeHoursTracker/getClasses.php";
     RequestQueue requestQueue;

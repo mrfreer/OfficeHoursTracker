@@ -3,6 +3,7 @@ package com.example.android.officehourstracker;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class RecycleViewCourseViewAdapter extends RecyclerView.Adapter<RecycleVi
 
             holder.CourseName.setText(getDataAdapter1.getCourseName());
             holder.CourseTime.setText(getDataAdapter1.getCourseTime());
+            Log.v("WRITING_HERE", getDataAdapter1.getID() + "");
             holder.CourseId.setText(getDataAdapter1.getID() + "");
         }
 

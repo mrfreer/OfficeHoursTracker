@@ -41,6 +41,7 @@ public class ClassList extends AppCompatActivity {
         Intent intent = getIntent();
         googleId = intent.getStringExtra("googleId");
         classId = intent.getStringExtra("classId");
+        Log.v("TRYING", classId);
         meetingTime = intent.getStringExtra("meetingDaysAndTime");
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewStudents);
         recyclerView.setHasFixedSize(true);
@@ -81,7 +82,7 @@ public class ClassList extends AppCompatActivity {
     }
 
     public void JSON_DATA_WEB_CALL(){
-        HTTP_JSON_URL += "?classId" + classId;
+        HTTP_JSON_URL += "?classId=" + getIntent().getStringExtra("classId");
         Log.d("writing_this", HTTP_JSON_URL);
         jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
         HTTP_JSON_URL,
@@ -114,6 +115,7 @@ public class ClassList extends AppCompatActivity {
 
                 GetDataAdapter2.setName(json.getString(GET_JSON_FROM_SERVER_NAME));
                 GetDataAdapter2.setStudentID(json.getString(GET_JSON_ID));
+
                 studentNames.add(json.getString(GET_JSON_FROM_SERVER_NAME));
                 studentId.add(json.getString(GET_JSON_ID));
             } catch (JSONException e) {

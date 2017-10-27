@@ -61,6 +61,7 @@ public class RecyclerViewCardViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
             StudentName = (TextView) itemView.findViewById(R.id.textViewStudent) ;
             StudentId = (TextView) itemView.findViewById(R.id.textViewID);
+
             itemView.setClickable(true);
             itemView.setOnClickListener(this);
         }
