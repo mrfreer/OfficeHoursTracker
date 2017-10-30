@@ -54,8 +54,9 @@ public class ViewStudentVisitors extends AppCompatActivity {
         BackgroundWorkerStudentTime backgroundWorkerStudentTime = new BackgroundWorkerStudentTime(this, this);
         Log.v("testing_variables", intent.getStringExtra("googleId"));
         Log.v("testing_variables1", intent.getStringExtra("studentId"));
+
         backgroundWorkerStudentTime.execute(intent.getStringExtra("googleId"), intent.getStringExtra("studentId"),
-                "JOHN DOE", curTime
+                intent.getStringExtra("studentName"), curTime
                 );
         recyclerView = (RecyclerView) findViewById(R.id.recycleViewTimes);
         recyclerView.setHasFixedSize(true);
@@ -100,7 +101,7 @@ public class ViewStudentVisitors extends AppCompatActivity {
             JSONObject json = null;
             try {
                 json = array.getJSONObject(i);
-
+                GetDataAdapter2.setStudentName(json.getString(GET_JSON_NAME));
                 GetDataAdapter2.setTimeStamp(json.getString(GET_JSON_TIME));
                 GetDataAdapter2.setStudentID(json.getString(GET_JSON_ID));
                 Log.v("writing_here", json.getString(GET_JSON_ID));
@@ -112,7 +113,6 @@ public class ViewStudentVisitors extends AppCompatActivity {
             studentTimes.add(GetDataAdapter2);
             Log.v("addingStudentTime", GetDataAdapter2.getStudentID());
         }
-        Log.v("dowehavegoogleid", intent.getStringExtra("googleId"));
         adapter = new RecycleViewStudentTimes(studentTimes, this, intent.getStringExtra("googleId"));
 
         recyclerView.setAdapter(adapter);
@@ -126,6 +126,7 @@ public class ViewStudentVisitors extends AppCompatActivity {
 
     JsonArrayRequest jsonArrayRequest;
     String GET_JSON_TIME = "timeEntered";
+    String GET_JSON_NAME = "studentName";
     String GET_JSON_ID = "studentId";
     String HTTP_JSON_URL = "http://freerschool.com/OfficeHoursTracker/getStudentTime.php";
     RequestQueue requestQueue;
