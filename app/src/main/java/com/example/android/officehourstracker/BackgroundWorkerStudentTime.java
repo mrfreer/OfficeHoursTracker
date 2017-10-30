@@ -94,16 +94,16 @@ public class BackgroundWorkerStudentTime extends AsyncTask<String, Void, String>
 
 @Override
 protected void onPreExecute() {
-//        alertDialog = new AlertDialog.Builder(context).create();
-//        alertDialog.setTitle("Login Status");
+        alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("Student visit recorded.");
 
         }
 
 @Override
 protected void onPostExecute(String s) {
 
-//        alertDialog.setMessage(s);
-//        alertDialog.show();
+        alertDialog.setMessage(s);
+        alertDialog.show();
 
         //show response to server
         Log.v("getHere?", s);
