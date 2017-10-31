@@ -1,14 +1,21 @@
 package com.example.android.officehourstracker;
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Color;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.example.android.officehourstracker.helper.ItemTouchHelperAdapter;
+import com.example.android.officehourstracker.helper.OnStartDragListener;
+import com.example.android.officehourstracker.helper.ItemTouchHelperViewHolder;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import java.util.List;
 
@@ -16,19 +23,24 @@ import java.util.List;
  * Created by davidfreer on 10/23/17.
  */
 
-public class RecycleViewStudentTimes extends RecyclerView.Adapter<RecycleViewStudentTimes.ViewHolder> {
-
+public class RecycleViewStudentTimes extends RecyclerView.Adapter<RecycleViewStudentTimes.ViewHolder>  implements ItemTouchHelperAdapter{
         Context context;
 
-        List<StudentTime> studentTimes;
+
+
+
+    List<StudentTime> studentTimes;
+    private final OnStartDragListener mDragStartListener;
+
         private String googleId;
-        public RecycleViewStudentTimes(List<StudentTime> getDataAdapter, Context context, String googleId){
+        public RecycleViewStudentTimes(List<StudentTime> getDataAdapter, Context context, String googleId, OnStartDragListener dragStartListener){
 
             super();
 
             this.studentTimes = getDataAdapter;
             this.googleId = googleId;
             this.context = context;
+            mDragStartListener = dragStartListener;
         }
 
         @Override
@@ -41,15 +53,43 @@ public class RecycleViewStudentTimes extends RecyclerView.Adapter<RecycleViewStu
             return viewHolder;
         }
 
+
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        return false;
+    }
+
+    public void onItemDismiss(int position) {
+        studentTimes.remove(position);
+
+        //TODO : remove from database
+
+    }
+
         @Override
-        public void onBindViewHolder(RecycleViewStudentTimes.ViewHolder holder, int position) {
+        public void onBindViewHolder(final RecycleViewStudentTimes.ViewHolder holder, int position) {
 
             StudentTime getDataAdapter1 =  studentTimes.get(position);
             //TODO make a call to the database to find out the name using the student ID
             holder.StudentId.setText(getDataAdapter1.getStudentID()+"");
             holder.StudentTime.setText(getDataAdapter1.getTimeStamp());
             holder.StudentName.setText(getDataAdapter1.getStudentName());
+
+            holder.handleView.setOnTouchListener(new View.OnTouchListener(){
+
+
+
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if(MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN){
+                        mDragStartListener.onStartDrag(holder);
+                    }
+                    return false;
+                }
+            });
+
+
         }
+
 
         @Override
         public int getItemCount() {
@@ -57,10 +97,10 @@ public class RecycleViewStudentTimes extends RecyclerView.Adapter<RecycleViewStu
             return studentTimes.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, ItemTouchHelperViewHolder{
 
             public TextView StudentName, StudentId, StudentTime;
-
+            final public ImageView handleView;
 
             public ViewHolder(View itemView) {
 
@@ -69,12 +109,24 @@ public class RecycleViewStudentTimes extends RecyclerView.Adapter<RecycleViewStu
                 StudentName = (TextView) itemView.findViewById(R.id.textViewStudentNameTime) ;
                 StudentId = (TextView) itemView.findViewById(R.id.textViewStudentId);
                 StudentTime = (TextView) itemView.findViewById(R.id.textViewTime);
+                handleView = (ImageView) itemView.findViewById(R.id.handle);
                 itemView.setClickable(true);
                 itemView.setOnClickListener(this);
+
             }
 
             public void onClick(View v) {
                 Log.v("weclicked", "goodclick");
+            }
+
+            @Override
+            public void onItemSelected() {
+                itemView.setBackgroundColor(Color.LTGRAY);
+            }
+
+            @Override
+            public void onItemClear() {
+                itemView.setBackgroundColor(0);
             }
         }
     }

@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -20,6 +21,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.android.officehourstracker.helper.OnStartDragListener;
+import com.example.android.officehourstracker.helper.SimpleItemTouchHelperCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,13 +37,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class ViewStudentVisitors extends AppCompatActivity {
+public class ViewStudentVisitors extends AppCompatActivity implements OnStartDragListener{
 
     private RecyclerView recyclerView;
     private List<StudentTime> studentTimes;
-    private RecyclerView.Adapter adapter;
+    private RecycleViewStudentTimes adapter;
     Intent intent;
     String curTime;
+    private ItemTouchHelper mItemTouchHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +65,7 @@ public class ViewStudentVisitors extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycleViewTimes);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         JSON_DATA_WEB_CALL();
 
     }
@@ -113,8 +118,11 @@ public class ViewStudentVisitors extends AppCompatActivity {
             studentTimes.add(GetDataAdapter2);
             Log.v("addingStudentTime", GetDataAdapter2.getStudentID());
         }
-        adapter = new RecycleViewStudentTimes(studentTimes, this, intent.getStringExtra("googleId"));
+        adapter = new RecycleViewStudentTimes(studentTimes, this, intent.getStringExtra("googleId"), this);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
 
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(adapter);
 
     }
@@ -124,6 +132,7 @@ public class ViewStudentVisitors extends AppCompatActivity {
         startActivity(intent);
     }
 
+
     JsonArrayRequest jsonArrayRequest;
     String GET_JSON_TIME = "timeEntered";
     String GET_JSON_NAME = "studentName";
@@ -132,5 +141,8 @@ public class ViewStudentVisitors extends AppCompatActivity {
     RequestQueue requestQueue;
 
 
-
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
+    }
 }
