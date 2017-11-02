@@ -101,8 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(gUsernameList.size() == 0){
             Toast.makeText(getApplicationContext(), "You aren't logged into an account", Toast.LENGTH_LONG).show();
-            //TODO make a website to create an account?
-            //TODO a fragment to enter
         }
 
         textViewSignIn.setText(googleName);

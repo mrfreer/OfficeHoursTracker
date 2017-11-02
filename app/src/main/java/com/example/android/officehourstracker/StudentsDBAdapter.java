@@ -59,8 +59,4 @@ public class StudentsDBAdapter {
         return mCursor;
     }
 
-    //TODO: Test that I can call this info:
-    //Use:
-    //http://www.mysamplecode.com/2012/07/android-listview-cursoradapter-sqlite.html
-
 }

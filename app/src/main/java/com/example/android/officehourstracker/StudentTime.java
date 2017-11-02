@@ -9,9 +9,14 @@ public class StudentTime {
     private String studentID;
     private String timeStamp;
     private String googleId;
+    private int t_id;
 
     public StudentTime(){
 
+    }
+
+    public void setT_id(int t_id) {
+        this.t_id = t_id;
     }
 
     public void setStudentName(String studentName) {
@@ -34,6 +39,17 @@ public class StudentTime {
         this.studentID = studentID;
         this.timeStamp = timeStamp;
         this.googleId = googleId;
+    }
+
+    public StudentTime(String studentID, String timeStamp, String googleId, int t_id) {
+        this.studentID = studentID;
+        this.timeStamp = timeStamp;
+        this.googleId = googleId;
+        this.t_id = t_id;
+    }
+
+    public int getT_id(){
+        return t_id;
     }
 
     public String getStudentName() {

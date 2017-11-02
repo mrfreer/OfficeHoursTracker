@@ -34,8 +34,6 @@ public class Course {
         students = new ArrayList<>();
     }
 
-    //TODO: Add student names from mysql database
-
     @Override
     public String toString() {
         return "Course{" +

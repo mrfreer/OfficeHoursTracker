@@ -46,7 +46,6 @@ public class RecycleViewCourseViewAdapter extends RecyclerView.Adapter<RecycleVi
 
             holder.CourseName.setText(getDataAdapter1.getCourseName());
             holder.CourseTime.setText(getDataAdapter1.getCourseTime());
-            Log.v("WRITING_HERE", getDataAdapter1.getID() + "");
             holder.CourseId.setText(getDataAdapter1.getID() + "");
         }
 
@@ -76,7 +75,6 @@ public class RecycleViewCourseViewAdapter extends RecyclerView.Adapter<RecycleVi
                 final Intent intent = new Intent(v.getContext(), ClassList.class);
                 intent.putExtra("classId", CourseId.getText().toString());
                 intent.putExtra("googleId", googleName);
-                //TODO will this work if it's invisible?
                 context.startActivity(intent);
             }
         }

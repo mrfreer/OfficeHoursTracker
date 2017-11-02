@@ -36,6 +36,11 @@ public class BackgroundWorker extends AsyncTask<String, Void, String>
         String googleId = params[0];
         Log.v("AgainWriting", googleId);
         String timeStamp = params[1];
+        String toDelete;
+        int t_id;
+
+
+
         String login_url = "http://freerschool.com/OfficeHoursTracker/insertProf.php";
         try {
 

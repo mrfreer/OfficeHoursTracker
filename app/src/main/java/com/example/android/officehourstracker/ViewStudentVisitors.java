@@ -56,9 +56,6 @@ public class ViewStudentVisitors extends AppCompatActivity implements OnStartDra
         sdf.setTimeZone(TimeZone.getTimeZone("EST"));
         curTime = sdf.format(new Date()).toString();
         BackgroundWorkerStudentTime backgroundWorkerStudentTime = new BackgroundWorkerStudentTime(this, this);
-        Log.v("testing_variables", intent.getStringExtra("googleId"));
-        Log.v("testing_variables1", intent.getStringExtra("studentId"));
-
         backgroundWorkerStudentTime.execute(intent.getStringExtra("googleId"), intent.getStringExtra("studentId"),
                 intent.getStringExtra("studentName"), curTime
                 );
@@ -109,8 +106,8 @@ public class ViewStudentVisitors extends AppCompatActivity implements OnStartDra
                 GetDataAdapter2.setStudentName(json.getString(GET_JSON_NAME));
                 GetDataAdapter2.setTimeStamp(json.getString(GET_JSON_TIME));
                 GetDataAdapter2.setStudentID(json.getString(GET_JSON_ID));
-                Log.v("writing_here", json.getString(GET_JSON_ID));
-
+                GetDataAdapter2.setT_id(json.getInt(GET_JSON_T_ID));
+                Log.v("WRITINGT_IDS", GetDataAdapter2.getT_id() + "");
             } catch (JSONException e) {
 
                 e.printStackTrace();
@@ -132,11 +129,11 @@ public class ViewStudentVisitors extends AppCompatActivity implements OnStartDra
         startActivity(intent);
     }
 
-
     JsonArrayRequest jsonArrayRequest;
     String GET_JSON_TIME = "timeEntered";
     String GET_JSON_NAME = "studentName";
     String GET_JSON_ID = "studentId";
+    String GET_JSON_T_ID = "t_id";
     String HTTP_JSON_URL = "http://freerschool.com/OfficeHoursTracker/getStudentTime.php";
     RequestQueue requestQueue;
 

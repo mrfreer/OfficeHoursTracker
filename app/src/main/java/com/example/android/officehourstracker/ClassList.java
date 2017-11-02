@@ -142,7 +142,6 @@ public class ClassList extends AppCompatActivity {
 
     public void readFromStudents(View view){
 
-        //TODO: READ FROM DATABASE AND WRITE TO CARDS!  VERY IMPORTANT!
         Log.i("WRITING_MDC", " READING DATABASE");
         SQLiteDatabase db = new ClassListDbHelper(this).getReadableDatabase();
         String [] projection = {
