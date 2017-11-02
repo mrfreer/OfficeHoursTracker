@@ -68,7 +68,7 @@ public class RecyclerViewCardViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
         public void onClick(View v) {
             final Intent intent = new Intent(v.getContext(), ViewStudentVisitors.class);
-
+            intent.putExtra("dontinsert", "no");
             intent.putExtra("studentName", StudentName.getText().toString());
             intent.putExtra("studentId", StudentId.getText().toString());
             Log.v("gethere", googleId + " anything?");
