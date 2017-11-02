@@ -31,8 +31,6 @@ public class BackgroundWorkerDeleteStudentTime extends AsyncTask<String, Void, S
         context = c;
     }
 
-
-
     protected String doInBackground(String ... params) {
         String result = "";
         String googleId = params[0];
@@ -65,7 +63,6 @@ public class BackgroundWorkerDeleteStudentTime extends AsyncTask<String, Void, S
                     Log.v("deleting", line);
                     result += line;
                 }
-
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();

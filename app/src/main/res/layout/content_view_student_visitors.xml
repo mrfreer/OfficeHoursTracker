@@ -15,16 +15,16 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="monospace"
-        android:text="Student Visit Recorded!"
-        android:textSize="24sp"
-        tools:layout_constraintTop_creator="1"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="72dp"
         android:layout_marginTop="16dp"
-        tools:layout_constraintLeft_creator="1"
+        android:fontFamily="monospace"
+        android:text="Student Visits"
+        android:textAlignment="textStart"
+        android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="@+id/recycleViewTimes"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="8dp" />
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycleViewTimes"

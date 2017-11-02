@@ -178,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
     public void showStudentTime(View view){
         Intent intent = new Intent(view.getContext(), ViewStudentVisitors.class);
         intent.putExtra("googleId", googleName);
+        intent.putExtra("dontinsert", "yes");
         startActivity(intent);
     }
 

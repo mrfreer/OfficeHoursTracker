@@ -55,10 +55,16 @@ public class ViewStudentVisitors extends AppCompatActivity implements OnStartDra
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("EST"));
         curTime = sdf.format(new Date()).toString();
-        BackgroundWorkerStudentTime backgroundWorkerStudentTime = new BackgroundWorkerStudentTime(this, this);
-        backgroundWorkerStudentTime.execute(intent.getStringExtra("googleId"), intent.getStringExtra("studentId"),
-                intent.getStringExtra("studentName"), curTime
-                );
+        if(intent.getStringExtra("dontinsert").equals("yes")){
+            Toast.makeText(getApplicationContext(), "Viewing student visits", Toast.LENGTH_LONG).show();
+        }
+        else{
+            BackgroundWorkerStudentTime backgroundWorkerStudentTime = new BackgroundWorkerStudentTime(this, this);
+            backgroundWorkerStudentTime.execute(intent.getStringExtra("googleId"), intent.getStringExtra("studentId"),
+                    intent.getStringExtra("studentName"), curTime
+            );
+
+        }
         recyclerView = (RecyclerView) findViewById(R.id.recycleViewTimes);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
