@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?android:attr/colorBackground"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.android.officehourstracker.ClassList">
+    tools:context="com.freerschool.android.freerschool.ClassList">
 
     <TextView
         android:id="@+id/textView"

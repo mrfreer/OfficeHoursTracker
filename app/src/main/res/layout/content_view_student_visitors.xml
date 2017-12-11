@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.android.officehourstracker.ViewStudentVisitors"
+    tools:context="com.freerschool.android.freerschool.ViewStudentVisitors"
     tools:showIn="@layout/activity_view_student_visitors"
     tools:layout_editor_absoluteY="25dp"
     tools:layout_editor_absoluteX="0dp">
