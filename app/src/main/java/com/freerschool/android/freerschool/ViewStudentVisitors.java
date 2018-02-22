@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -44,7 +46,10 @@ public class ViewStudentVisitors extends AppCompatActivity implements OnStartDra
         setContentView(R.layout.activity_view_student_visitors);
         studentTimes = new ArrayList<>();
         intent = getIntent();
-
+        String [] arraySpinner = new String[]{"Sort by: Class", "Student", "Time", "Day"};
+        Spinner spinner = (Spinner)findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arraySpinner);
+        spinner.setAdapter(adapter);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("EST"));
         curTime = sdf.format(new Date()).toString();

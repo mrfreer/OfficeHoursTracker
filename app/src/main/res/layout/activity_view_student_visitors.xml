@@ -10,7 +10,8 @@
 
     <include
         layout="@layout/content_view_student_visitors"
-        android:layout_width="match_parent"
-        android:layout_height="513dp" />
+        android:layout_width="383dp"
+        android:layout_height="566dp"
+        tools:layout_editor_absoluteX="0dp" />
 
 </android.support.design.widget.CoordinatorLayout>

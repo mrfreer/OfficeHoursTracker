@@ -40,7 +40,6 @@ public class ClassList extends AppCompatActivity {
         Intent intent = getIntent();
         googleId = intent.getStringExtra("googleId");
         classId = intent.getStringExtra("classId");
-        Log.v("TRYING", classId);
         meetingTime = intent.getStringExtra("meetingDaysAndTime");
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewStudents);
         recyclerView.setHasFixedSize(true);
@@ -50,7 +49,6 @@ public class ClassList extends AppCompatActivity {
         textViewClassName = (TextView) findViewById(R.id.textViewClass);
         textViewClassName.setText(getIntent().getExtras().getString("className"));
         String courseIdentification = Integer.toString(getIntent().getExtras().getInt("classID")) + " is the class ID.";
-        Log.v("writing_class_id", courseIdentification);
     }
 
     public ArrayList<Student> readStudentsFromDBLocal(){
