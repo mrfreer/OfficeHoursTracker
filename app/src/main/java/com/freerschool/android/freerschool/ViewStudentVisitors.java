@@ -46,7 +46,7 @@ public class ViewStudentVisitors extends AppCompatActivity implements OnStartDra
         setContentView(R.layout.activity_view_student_visitors);
         studentTimes = new ArrayList<>();
         intent = getIntent();
-        String [] arraySpinner = new String[]{"Sort by: Class", "Student", "Time", "Day"};
+        String [] arraySpinner = new String[]{"Sort by:", "Class", "Student", "Time", "Day"};
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arraySpinner);
         spinner.setAdapter(adapter);
