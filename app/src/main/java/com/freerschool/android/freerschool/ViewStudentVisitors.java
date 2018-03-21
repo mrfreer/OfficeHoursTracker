@@ -121,7 +121,6 @@ public class ViewStudentVisitors extends AppCompatActivity implements OnStartDra
         }
         adapter = new RecycleViewStudentTimes(studentTimes, this, intent.getStringExtra("googleId"), this);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
-
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(adapter);

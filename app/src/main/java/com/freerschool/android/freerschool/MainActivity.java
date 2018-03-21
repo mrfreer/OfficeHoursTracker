@@ -1,48 +1,52 @@
 
-        package com.freerschool.android.freerschool;
+package com.freerschool.android.freerschool;
 
-        import android.accounts.Account;
-        import android.accounts.AccountManager;
-        import android.app.Dialog;
-        import android.content.DialogInterface;
-        import android.content.Intent;
-        import android.support.v7.app.AlertDialog;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.support.v7.widget.LinearLayoutManager;
-        import android.support.v7.widget.RecyclerView;
-        import android.util.Log;
-        import android.view.View;
-        import android.widget.AdapterView;
-        import android.widget.ArrayAdapter;
-        import android.widget.ListView;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import com.android.volley.Request;
-        import com.android.volley.RequestQueue;
-        import com.android.volley.Response;
-        import com.android.volley.VolleyError;
-        import com.android.volley.toolbox.JsonArrayRequest;
-        import com.android.volley.toolbox.Volley;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+import com.freerschool.android.freerschool.helper.OnStartDragListener;
+import com.freerschool.android.freerschool.helper.SimpleItemTouchHelperCallback;
 
-        import org.json.JSONArray;
-        import org.json.JSONException;
-        import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-        import java.text.SimpleDateFormat;
-        import java.util.ArrayList;
-        import java.util.Date;
-        import java.util.List;
-        import java.util.Locale;
-        import java.util.TimeZone;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnStartDragListener{
 
     private RecyclerView recyclerView;
     private TextView textViewSignIn;
-    private RecyclerView.Adapter adapter;
-    private RecyclerView.Adapter mysqlAdapter;
+    private ItemTouchHelper mItemTouchHelper;
+    private RecycleViewCourseViewAdapter adapter;
+
     private List<Course> courses;
     String googleName = "";
     ArrayList<String> gUsernameList = new ArrayList<String>();
@@ -148,8 +152,11 @@ public class MainActivity extends AppCompatActivity {
             Log.v("addingCourse", GetDataAdapter2.getCourseName());
         }
 
-        mysqlAdapter = new RecycleViewCourseViewAdapter(courses, this, googleName);
-        recyclerView.setAdapter(mysqlAdapter);
+        adapter = new RecycleViewCourseViewAdapter(courses, this, googleName, this);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(recyclerView);
+        recyclerView.setAdapter(adapter);
 
     }
 
@@ -189,5 +196,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(view.getContext(), UploadRoster.class);
         intent.putExtra("googleIdentification", googleName);
         startActivity(intent);
+    }
+
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder){
+        mItemTouchHelper.startDrag(viewHolder);
     }
 }

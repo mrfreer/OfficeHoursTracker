@@ -8,25 +8,41 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.freerschool.android.freerschool.helper.ItemTouchHelperAdapter;
+import com.freerschool.android.freerschool.helper.OnStartDragListener;
+
 import java.util.List;
 
 /**
  * Created by dfreer on 10/19/2017.
  */
 
-public class RecycleViewCourseViewAdapter extends RecyclerView.Adapter<RecycleViewCourseViewAdapter.ViewHolder> {
+public class RecycleViewCourseViewAdapter extends RecyclerView.Adapter<RecycleViewCourseViewAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
         Context context;
 
         List<Course> courses;
         private String googleName;
+        private final OnStartDragListener mDragStartListener;
 
-        public RecycleViewCourseViewAdapter(List<Course> getDataAdapter, Context context, String googleName){
+        public RecycleViewCourseViewAdapter(List<Course> getDataAdapter, Context context, String googleName, OnStartDragListener dragStartListener){
 
             super();
             this.courses = getDataAdapter;
             this.context = context;
             this.googleName = googleName;
+            mDragStartListener = dragStartListener;
+        }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        return false;
+    }
+
+    public void onItemDismiss(int position){
+            BackgroundWorkerDeleteClass backgroundWorker = new BackgroundWorkerDeleteClass(context);
+            backgroundWorker.execute("x", "x", courses.get(position).getID() + "");
+            courses.remove(position);
         }
 
         @Override
