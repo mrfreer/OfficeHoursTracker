@@ -28,25 +28,6 @@
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycleViewTimes"
-        android:layout_width="341dp"
-        android:layout_height="0dp"
-
-        android:layout_marginBottom="28dp"
-        android:layout_marginTop="29dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/buttonReturnHome"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"></android.support.v7.widget.RecyclerView>
-
     <Button
         android:id="@+id/buttonReturnHome"
         android:layout_width="wrap_content"
@@ -65,13 +46,32 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="243dp"
-        android:layout_height="24dp"
+        android:layout_width="358dp"
+        android:layout_height="29dp"
         android:entries="@string/app_name"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/buttonReturnHome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleViewTimes"
+        android:layout_width="367dp"
+        android:layout_height="0dp"
+
+        android:layout_marginBottom="28dp"
+        android:layout_marginTop="29dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/buttonReturnHome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView2"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1"></android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>

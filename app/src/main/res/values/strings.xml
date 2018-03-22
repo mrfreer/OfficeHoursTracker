@@ -11,6 +11,6 @@
     <string name="upload5">The secret code is to uniquely identify you!</string>
     <string name="Class">Filter by class</string>
     <string name="Name">Filter by name</string>
-
+    <string name="welcome">Welcome to the dialog box!</string>
 
 </resources>

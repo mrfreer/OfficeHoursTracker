@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/tVStaticSmallLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search for visits by:"
+        android:textColor="#777777"
+        android:textSize="22px"
+        />
+
+    <TextView
+        android:id="@+id/tVMainText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tVStaticSmallLabel"
+        android:layout_marginTop="5dip"
+        android:text="your changing text"
+        />
+
+</RelativeLayout>

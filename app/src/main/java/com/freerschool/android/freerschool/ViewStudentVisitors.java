@@ -1,5 +1,10 @@
 package com.freerschool.android.freerschool;
 
+import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,9 +12,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -46,10 +57,44 @@ public class ViewStudentVisitors extends AppCompatActivity implements OnStartDra
         setContentView(R.layout.activity_view_student_visitors);
         studentTimes = new ArrayList<>();
         intent = getIntent();
-        String [] arraySpinner = new String[]{"Sort by:", "Class", "Student", "Time", "Day"};
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arraySpinner);
-        spinner.setAdapter(adapter);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.searchArray, R.layout.support_simple_spinner_dropdown_item);
+        spinner.setAdapter(new NothingSelectedSpinnerAdapter(
+                adapter,
+                R.layout.contact_spinner_row_nothing_selected,
+                this));
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            String toSearch = "";
+                switch (position) {
+                    case 1:
+                        toSearch = "Class";
+                        showSearchDialog(toSearch);
+                        break;
+                    case 2:
+                        toSearch = "Student";
+                        showSearchDialog(toSearch);
+                        break;
+                    case 3:
+                        toSearch = "Time";
+                        showSearchDialog(toSearch);
+                        break;
+                    case 4:
+                        toSearch = "Day";
+                        showSearchDialog(toSearch);
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // sometimes you need nothing here
+            }
+        });
+
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("EST"));
         curTime = sdf.format(new Date()).toString();
@@ -69,6 +114,30 @@ public class ViewStudentVisitors extends AppCompatActivity implements OnStartDra
 
         JSON_DATA_WEB_CALL();
 
+    }
+
+    public void showSearchDialog(String toSearch) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.search_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText edt = (EditText) dialogView.findViewById(R.id.edit1);
+
+        dialogBuilder.setTitle("Search for " + toSearch);
+        dialogBuilder.setMessage("Enter text below");
+        dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //do something with edt.getText().toString();
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //pass
+            }
+        });
+        AlertDialog b = dialogBuilder.create();
+        b.show();
     }
 
     public void JSON_DATA_WEB_CALL(){
@@ -145,4 +214,7 @@ public class ViewStudentVisitors extends AppCompatActivity implements OnStartDra
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         mItemTouchHelper.startDrag(viewHolder);
     }
+
+
 }
+
