@@ -43,6 +43,7 @@ public class RecycleViewCourseViewAdapter extends RecyclerView.Adapter<RecycleVi
             BackgroundWorkerDeleteClass backgroundWorker = new BackgroundWorkerDeleteClass(context);
             backgroundWorker.execute("x", "x", courses.get(position).getID() + "");
             courses.remove(position);
+            notifyItemRemoved(position);
         }
 
         @Override

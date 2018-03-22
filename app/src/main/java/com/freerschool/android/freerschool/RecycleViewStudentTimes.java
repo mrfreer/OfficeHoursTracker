@@ -57,7 +57,7 @@ public class RecycleViewStudentTimes extends RecyclerView.Adapter<RecycleViewStu
         BackgroundWorkerDeleteStudentTime backgroundWorker = new BackgroundWorkerDeleteStudentTime(context);
         backgroundWorker.execute("x", "x", studentTimes.get(position).getT_id() + "");
         studentTimes.remove(position);
-
+        notifyItemRemoved(position);
     }
 
         @Override
