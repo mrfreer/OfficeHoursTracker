@@ -1,11 +1,15 @@
 
 package com.freerschool.android.freerschool;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +32,13 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.freerschool.android.freerschool.helper.OnStartDragListener;
 import com.freerschool.android.freerschool.helper.SimpleItemTouchHelperCallback;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,77 +51,80 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class MainActivity extends AppCompatActivity implements OnStartDragListener{
+public class MainActivity extends AppCompatActivity implements OnStartDragListener, View.OnClickListener{
 
     private RecyclerView recyclerView;
     private TextView textViewSignIn;
     private ItemTouchHelper mItemTouchHelper;
     private RecycleViewCourseViewAdapter adapter;
+    com.google.android.gms.common.SignInButton sign_in_button;
+    private static final int RC_SIGN_IN = 9001;
 
     private List<Course> courses;
     String googleName = "";
-    ArrayList<String> gUsernameList = new ArrayList<String>();
+    final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 3837;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textViewSignIn = (TextView) findViewById(R.id.textViewSignIn);
-        AccountManager accountManager = (AccountManager)getSystemService(getApplicationContext().ACCOUNT_SERVICE);
-        Account[] accounts = accountManager.getAccountsByType("com.google");
-        Log.v("writing", accounts.length + "");
-
-        for (Account account : accounts) {
-            gUsernameList.add(account.name);
-            Log.i("testingtesting", account.name);
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle("Choose your gmail-account");
-
-        ListView lv = new ListView(this);
-
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>
-                (this,android.R.layout.simple_list_item_1, android.R.id.text1,
-                        gUsernameList);
-
-        lv.setAdapter(adapter1);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> parent,View view,int position,long
-                    id)
-            {
-                Log.d("You-select-gmail", gUsernameList.get(position));
-                googleName = gUsernameList.get(position);
-
-            }
-        });
-
-        builder.setView(lv);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                dialog.dismiss();
-            }
-        });
-        final Dialog dialog = builder.create();
-        //if(gUsernameList.size() > 1)
-        //    dialog.show();
-        googleName = gUsernameList.get(0);
-
-        if(gUsernameList.size() == 0){
-            Toast.makeText(getApplicationContext(), "You aren't logged into an account", Toast.LENGTH_LONG).show();
-        }
-
-        textViewSignIn.setText(googleName);
+        sign_in_button = (com.google.android.gms.common.SignInButton)findViewById(R.id.sign_in_button);
+        sign_in_button.setSize(SignInButton.SIZE_STANDARD);
+        findViewById(R.id.sign_in_button).setOnClickListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestIdToken(getString(R.string.server_client_id))
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         courses = new ArrayList<>();
-        JSON_DATA_WEB_CALL();
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.GET_ACCOUNTS)
+                != PackageManager.PERMISSION_GRANTED) {
 
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.GET_ACCOUNTS)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.GET_ACCOUNTS, Manifest.permission.INTERNET},
+                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            // Permission has already been granted
+        }
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);  //this doesn't work.
+        if (acct != null) {
+            String personName = acct.getDisplayName();
+            Log.v("getgooglename", personName + " is the person name");
+            String personGivenName = acct.getGivenName();
+            String personFamilyName = acct.getFamilyName();
+            String personEmail = acct.getEmail();
+            String personId = acct.getId();
+            Toast.makeText(getApplicationContext(), "Welcome " + personName, Toast.LENGTH_LONG).show();
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "NULL", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void JSON_DATA_WEB_CALL(){
         HTTP_JSON_URL += "?googleId=" + googleName;
+        Log.v("checking", "what is googleName " + googleName);
         jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
                 HTTP_JSON_URL,
                 new Response.Listener<JSONArray>() {
@@ -171,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements OnStartDragListen
     int GetItemPosition ;
     ArrayList<String> classNames;
     ArrayList<String> meetingDaysAndTime;
-
+    GoogleSignInClient mGoogleSignInClient;
 
 
 
@@ -198,7 +212,92 @@ public class MainActivity extends AppCompatActivity implements OnStartDragListen
         startActivity(intent);
     }
 
+    public void onStart(){
+        super.onStart();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        updateUI(account);
+    }
+
+
+    private void updateUI(GoogleSignInAccount account) {
+        if(account != null){
+            Toast.makeText(this,"Welcome " + account.getDisplayName(), Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this,"Welcome guest!", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
     public void onStartDrag(RecyclerView.ViewHolder viewHolder){
         mItemTouchHelper.startDrag(viewHolder);
+    }
+
+    @Override
+    public void onClick(View v) {
+        signIn();
+        JSON_DATA_WEB_CALL();
+    }
+
+    private void signIn() {
+        Log.v("checking", "In signin()");
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.v("checking", "In onActivityResult()");
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            googleName = account.getEmail().toString();
+            Log.v("checking", googleName + " googleName.");
+            // Signed in successfully, show authenticated UI.
+            updateUI(account);
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w("failedHERE", "signInResult:failed code=" + e.getStatusCode());
+            updateUI(null);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    Toast.makeText(getApplicationContext(), "You are ready to keep track of your student visits.", Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(getApplicationContext(), "Doesn't work!", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
     }
 }

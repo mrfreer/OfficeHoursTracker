@@ -67,7 +67,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String>
             while((line = bufferedReader.readLine()) != null){
                 Log.v("testingWriting", line);
                 result += line;
-
             }
 
             bufferedReader.close();
